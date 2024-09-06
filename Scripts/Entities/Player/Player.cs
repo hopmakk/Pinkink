@@ -1,30 +1,39 @@
 ﻿using Godot;
-using System.Reflection.Emit;
+using Godot.Collections;
 
-public partial class Player : CharacterBody2D
+public partial class Player : EntityBase
 {
-    public const float SPEED = 100.0f;
-    public const float JUMP_VELOCITY = -200.0f;
-
-    private int playerDirection = 0;
-
+    private const float SPEED = 100.0f;
+    private const float JUMP_VELOCITY = -300.0f;
     private RichTextLabel _label;
-    private AnimatedSprite2D _anim;
-
 
     public override void _Ready()
     {
+        base._Ready();
+
+        Speed = SPEED;
+        JumpVelocity = JUMP_VELOCITY;
+        Direction = 1;
         _label = GetNode<RichTextLabel>("../UI/Control/TestLabel");
-        _anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        AnimNamesWithDirection = new Dictionary<string, string[]>()
+        {
+            { "PlayerFloorIdle", new[]{ "floor_idle_left", "floor_idle_right" } },
+            { "PlayerFloorRun", new[]{ "floor_run_left", "floor_run_right" } },
+            { "PlayerAir", new[]{ "air_left", "air_right" } },
+            { "PlayerAirJump", new[]{ "jump_left", "jump_right" } },
+        };
     }
 
 
     public override void _PhysicsProcess(double delta)
 	{
-        // двигаемся
-        MoveAndSlide();
+        base._PhysicsProcess(delta);
 
-        Movement(delta);
+        //_label.Text = $"X: {Velocity.X} \nY: {Velocity.Y}";
+        // двигаемся
+        //MoveAndSlide();
+
+        //Movement(delta);
     }
 
 
@@ -60,12 +69,12 @@ public partial class Player : CharacterBody2D
         // X
         if (direction.X != 0)
         {
-            velocity.X = direction.X * SPEED;
+            velocity.X = direction.X * Speed;
         }
         else
         {
             if (isOnFloor || isOnCeiling)
-                velocity.X = Mathf.MoveToward(Velocity.X, 0, SPEED);
+                velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
         }
 
         // Y
@@ -73,19 +82,19 @@ public partial class Player : CharacterBody2D
         {
             if (direction.Y != 0)
             {
-                velocity.Y = direction.Y * SPEED;
+                velocity.Y = direction.Y * Speed;
             }
             else
             {
-                velocity.Y = Mathf.MoveToward(Velocity.Y, 0, SPEED);
+                velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
             }
         }
 
         // прыжок
-        if (Input.IsActionJustPressed("ui_accept"))
-        {
-            velocity.Y = JUMP_VELOCITY;
-        }
+            if (Input.IsActionJustPressed("ui_accept"))
+            {
+                velocity.Y = JumpVelocity;
+            }
 
         // если не на поверхностях - действует гравитация
         if (!(isOnFloor || isOnCeiling || isOnWall))

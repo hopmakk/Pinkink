@@ -1,21 +1,20 @@
 using Godot;
-using System;
 
 public partial class State : Node2D
 {
-    protected CharacterBody2D _parent;
+    protected EntityBase _parent;
 
     [Signal]
-    public delegate void TransitionedEventHandler(State state, string newStateName);
+    public delegate void TransitionedEventHandler(State state, string newStateName, Variant arg);
 
 
     public override void _Ready()
     {
-        _parent = GetParent<StateMachine>().GetParent<CharacterBody2D>();
+        _parent = GetParent<StateMachine>().GetParent<EntityBase>();
     }
 
 
-    public virtual void Enter() { }
+    public virtual void Enter(Variant arg) { }
 
 
     public virtual void Exit() { }

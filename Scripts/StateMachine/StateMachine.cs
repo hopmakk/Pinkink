@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using System.Collections.Generic;
 
 public partial class StateMachine : Node2D
@@ -19,13 +19,18 @@ public partial class StateMachine : Node2D
 			States.Add(child.Name.ToString().ToLower(), child);
             child.Transitioned += OnChildTransition;
         }
-
-		if (InitialState != null)
-		{
-            CurrentState = InitialState;
-            CurrentState.Enter();
-        }
 	}
+
+
+    // запуск машины извне
+    public void Launch()
+    {
+        if (InitialState != null)
+        {
+            CurrentState = InitialState;
+            CurrentState.Enter("");
+        }
+    }
 
 
     public override void _Process(double delta)
@@ -42,7 +47,7 @@ public partial class StateMachine : Node2D
     }
 
 
-    private void OnChildTransition(State state, string newStateName)
+    private void OnChildTransition(State state, string newStateName, Variant arg)
     {
         if (state != CurrentState)
         {
@@ -55,7 +60,7 @@ public partial class StateMachine : Node2D
             newState = InitialState;
 
         state.Exit();
-        newState.Enter();
+        newState.Enter(arg);
         CurrentState = newState;
     }
 }

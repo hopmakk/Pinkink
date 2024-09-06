@@ -36,8 +36,6 @@ public partial class CameraScript : Camera2D
             // Обновляем позицию камеры
             Position = newPosition;
         }
-
-        //if (Input.)
     }
 
 

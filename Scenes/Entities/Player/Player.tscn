@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctp5xpcekkv4q"]
+
+[ext_resource type="PackedScene" uid="uid://7x84ogxon8jh" path="res://Scenes/Entities/Entity.tscn" id="1_q63f3"]
+[ext_resource type="SpriteFrames" uid="uid://bnjjldlx8galg" path="res://Scenes/Entities/Player/Player.tres" id="2_2c1wu"]
+[ext_resource type="Script" path="res://Scripts/Entities/Player/Player.cs" id="2_ic5yw"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/StateMachine.cs" id="3_t8bkd"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorIdle.cs" id="5_7l17q"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorRun.cs" id="6_2uquv"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerAir.cs" id="7_4jcn2"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvbfb"]
+radius = 6.0
+height = 12.0
+
+[node name="Player" instance=ExtResource("1_q63f3")]
+script = ExtResource("2_ic5yw")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+texture_filter = 1
+sprite_frames = ExtResource("2_2c1wu")
+animation = &"idle"
+offset = Vector2(0, -8)
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -6)
+shape = SubResource("CapsuleShape2D_cvbfb")
+
+[node name="StateMachine" type="Node2D" parent="." index="3" node_paths=PackedStringArray("InitialState")]
+script = ExtResource("3_t8bkd")
+InitialState = NodePath("PlayerFloorIdle")
+
+[node name="PlayerFloorIdle" type="Node2D" parent="StateMachine" index="0"]
+script = ExtResource("5_7l17q")
+
+[node name="PlayerFloorRun" type="Node2D" parent="StateMachine" index="1"]
+script = ExtResource("6_2uquv")
+
+[node name="PlayerAir" type="Node2D" parent="StateMachine" index="2"]
+script = ExtResource("7_4jcn2")
+
+[node name="CoyoteJump" type="Timer" parent="StateMachine/PlayerAir" index="0"]
+one_shot = true
+
+[node name="TodoJump" type="Timer" parent="StateMachine/PlayerAir" index="1"]
+one_shot = true
