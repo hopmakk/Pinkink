@@ -29,7 +29,7 @@ public partial class Player : EntityBase
 	{
         base._PhysicsProcess(delta);
 
-        //_label.Text = $"X: {Velocity.X} \nY: {Velocity.Y}";
+        _label.Text = $"X: {Velocity.X} \nY: {Velocity.Y}";
         // двигаемся
         //MoveAndSlide();
 

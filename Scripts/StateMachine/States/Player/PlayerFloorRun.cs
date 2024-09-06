@@ -21,6 +21,12 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
         public override void Exit()
         {
+            Tween tween = _parent.AnimSpriteTween;
+            tween.TweenProperty(_parent.Anim, "skew", 0.05, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", -0.05, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", 0.02, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", -0.02, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", 0, 0.1f);
         }
 
 

@@ -18,7 +18,7 @@ script = ExtResource("2_ic5yw")
 [node name="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
 sprite_frames = ExtResource("2_2c1wu")
-animation = &"idle"
+animation = &"floor_run_right"
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" parent="." index="1"]

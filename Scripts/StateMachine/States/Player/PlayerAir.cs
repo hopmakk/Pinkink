@@ -48,6 +48,19 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         {
             _coyoteJumpTimer.Stop();
             _todoJumpTimer.Stop();
+
+            Tween tween = _parent.AnimSpriteTween;
+            tween.TweenProperty(_parent.Anim, "skew", 0.1, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", -0.1, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", 0.05, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", -0.05, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", 0.02, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", -0.02, 0.1f);
+            tween.TweenProperty(_parent.Anim, "skew", 0, 0.1f);
+
+            Tween tween1 = _parent.GetTree().CreateTween();
+            tween1.TweenProperty(_parent.Anim, "scale", new Vector2(1.1f, 0.9f), 0.1f);
+            tween1.TweenProperty(_parent.Anim, "scale", new Vector2(1.0f, 1.0f), 0.1f);
         }
 
 
@@ -59,6 +72,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         public override void PhysicsUpdate(double delta)
         {
             Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+            direction.Y = 0;
+            direction = direction.Round();
 
             if (direction.X * _lastDirection < 0)
                 ChangeAnim();
