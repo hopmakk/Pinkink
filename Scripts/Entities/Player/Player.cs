@@ -3,7 +3,7 @@ using Godot.Collections;
 
 public partial class Player : EntityBase
 {
-    private const float SPEED = 100.0f;
+    private const float SPEED = 85.0f;
     private const float JUMP_VELOCITY = -300.0f;
     private RichTextLabel _label;
 
@@ -19,6 +19,8 @@ public partial class Player : EntityBase
         {
             { "PlayerFloorIdle", new[]{ "floor_idle_left", "floor_idle_right" } },
             { "PlayerFloorRun", new[]{ "floor_run_left", "floor_run_right" } },
+            { "PlayerWallIdle", new[]{ "wall_idle_left", "wall_idle_right" } },
+            { "PlayerWallRun", new[]{ "wall_run_left", "wall_run_right" } },
             { "PlayerAir", new[]{ "air_left", "air_right" } },
             { "PlayerAirJump", new[]{ "jump_left", "jump_right" } },
         };

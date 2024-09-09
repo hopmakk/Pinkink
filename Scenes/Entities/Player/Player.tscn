@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ctp5xpcekkv4q"]
+[gd_scene load_steps=11 format=3 uid="uid://ctp5xpcekkv4q"]
 
 [ext_resource type="PackedScene" uid="uid://7x84ogxon8jh" path="res://Scenes/Entities/Entity.tscn" id="1_q63f3"]
 [ext_resource type="SpriteFrames" uid="uid://bnjjldlx8galg" path="res://Scenes/Entities/Player/Player.tres" id="2_2c1wu"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorIdle.cs" id="5_7l17q"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorRun.cs" id="6_2uquv"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerAir.cs" id="7_4jcn2"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallIdle.cs" id="8_j2chn"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallRun.cs" id="9_7sxvb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvbfb"]
 radius = 6.0
@@ -18,7 +20,7 @@ script = ExtResource("2_ic5yw")
 [node name="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
 sprite_frames = ExtResource("2_2c1wu")
-animation = &"floor_run_right"
+animation = &"wall_run_right"
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -43,3 +45,9 @@ one_shot = true
 
 [node name="TodoJump" type="Timer" parent="StateMachine/PlayerAir" index="1"]
 one_shot = true
+
+[node name="PlayerWallIdle" type="Node2D" parent="StateMachine" index="3"]
+script = ExtResource("8_j2chn")
+
+[node name="PlayerWallRun" type="Node2D" parent="StateMachine" index="4"]
+script = ExtResource("9_7sxvb")

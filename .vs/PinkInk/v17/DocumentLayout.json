@@ -7,12 +7,16 @@
       "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\statemachine\\states\\player\\playerair.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\statemachine\\states\\player\\playerwallidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\statemachine\\states\\player\\playerwallidle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\statemachine\\states\\player\\playerfloorrun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\statemachine\\states\\player\\playerfloorrun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\entities\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\entities\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\statemachine\\states\\player\\playerwallrun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\statemachine\\states\\player\\playerwallrun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\statemachine\\states\\player\\playerflooridle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,6 +31,10 @@
       "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\statemachine\\statemachine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\entities\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\entities\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\statemachine\\state.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\statemachine\\state.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -38,11 +46,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PlayerWallRun.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerWallRun.cs",
+              "RelativeDocumentMoniker": "Scripts\\StateMachine\\States\\Player\\PlayerWallRun.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerWallRun.cs",
+              "RelativeToolTip": "Scripts\\StateMachine\\States\\Player\\PlayerWallRun.cs",
+              "ViewState": "AQIAACEAAAAAAAAAAAAwwEMAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-08T20:17:17.622Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlayerWallIdle.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerWallIdle.cs",
+              "RelativeDocumentMoniker": "Scripts\\StateMachine\\States\\Player\\PlayerWallIdle.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerWallIdle.cs",
+              "RelativeToolTip": "Scripts\\StateMachine\\States\\Player\\PlayerWallIdle.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAYwB8AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-08T20:16:48.098Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -52,33 +86,33 @@
               "RelativeDocumentMoniker": "Scripts\\StateMachine\\States\\Player\\PlayerAir.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerAir.cs",
               "RelativeToolTip": "Scripts\\StateMachine\\States\\Player\\PlayerAir.cs",
-              "ViewState": "AQIAACgAAAAAAAAAAAAqwDUAAAAFAAAA",
+              "ViewState": "AQIAAGIAAAAAAAAAAAAmwHEAAABDAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-05T15:21:51.179Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PlayerFloorRun.cs",
               "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
               "RelativeDocumentMoniker": "Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
               "RelativeToolTip": "Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
-              "ViewState": "AQIAACwAAAAAAAAAAAAmwBcAAAAyAAAA",
+              "ViewState": "AQIAAD0AAAAAAAAAAIAwwEYAAABVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-05T08:34:55.661Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PlayerFloorIdle.cs",
               "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerFloorIdle.cs",
               "RelativeDocumentMoniker": "Scripts\\StateMachine\\States\\Player\\PlayerFloorIdle.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerFloorIdle.cs",
               "RelativeToolTip": "Scripts\\StateMachine\\States\\Player\\PlayerFloorIdle.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADEAAAAXAAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAowEEAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-04T19:28:36.826Z",
               "EditorCaption": ""
@@ -86,52 +120,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "State.cs",
-              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\State.cs",
-              "RelativeDocumentMoniker": "Scripts\\StateMachine\\State.cs",
-              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\State.cs",
-              "RelativeToolTip": "Scripts\\StateMachine\\State.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-05T08:30:15.943Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "StateMachine.cs",
               "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\StateMachine.cs",
               "RelativeDocumentMoniker": "Scripts\\StateMachine\\StateMachine.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\StateMachine.cs",
               "RelativeToolTip": "Scripts\\StateMachine\\StateMachine.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAAowDYAAAAJAAAA",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAQwEIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-04T18:34:14.36Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "EntityBase.cs",
               "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\EntityBase.cs",
               "RelativeDocumentMoniker": "Scripts\\Entities\\EntityBase.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\EntityBase.cs",
               "RelativeToolTip": "Scripts\\Entities\\EntityBase.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAswAcAAABdAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-05T11:47:50.521Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\Player\\Player.cs",
               "RelativeDocumentMoniker": "Scripts\\Entities\\Player\\Player.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\Player\\Player.cs",
               "RelativeToolTip": "Scripts\\Entities\\Player\\Player.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAA1wBQAAABJAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-29T03:00:13.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "State.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\State.cs",
+              "RelativeDocumentMoniker": "Scripts\\StateMachine\\State.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\State.cs",
+              "RelativeToolTip": "Scripts\\StateMachine\\State.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAxwAMAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-05T08:30:15.943Z",
               "EditorCaption": ""
             }
           ]

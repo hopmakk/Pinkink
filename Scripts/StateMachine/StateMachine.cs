@@ -1,4 +1,6 @@
 ﻿using Godot;
+using PinkInk.Scripts.ProjectLogic;
+using System;
 using System.Collections.Generic;
 
 public partial class StateMachine : Node2D
@@ -62,5 +64,14 @@ public partial class StateMachine : Node2D
         state.Exit();
         newState.Enter(arg);
         CurrentState = newState;
+
+        newStateName = newStateName.ToLower();
+        if (newStateName.Contains("wall"))
+            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Magenta);
+        else if (newStateName.Contains("floor"))
+            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Yellow);
+        else if (newStateName.Contains("air"))
+            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Blue);
+        Console.WriteLine();
     }
 }

@@ -28,32 +28,40 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
         public override void PhysicsUpdate(double delta)
         {
-            Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+            var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+            var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
 
-            StateTransitonCheck(direction);
+            StateTransitonCheck(inputDirectionX, inputDirectionY);
         }
 
 
-        private void StateTransitonCheck(Vector2 direction)
+        private void StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
-            // run
-            if (direction.X != 0)
+            // air (jump)
+            if (Input.IsActionJustPressed("jump"))
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorRun", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
                 return;
             }
 
             // air (fall)
-            if (!(_parent.IsOnFloor() || _parent.IsOnWall() || _parent.IsOnCeiling()))
+            if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
                 return;
             }
 
-            // air (jump)
-            if (Input.IsActionJustPressed("jump"))
+            // run
+            if (inputDirectionX != 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorRun", default);
+                return;
+            }
+
+            // wall idle
+            if (_parent.IsOnWall() && inputDirectionY < 0)
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
                 return;
             }
         }

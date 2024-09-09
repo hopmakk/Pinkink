@@ -1,4 +1,6 @@
 ﻿using Godot;
+using PinkInk.Scripts.ProjectLogic;
+using System;
 
 namespace PinkInk.Scripts.StateMachine.States.Player
 {
@@ -15,7 +17,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
         public override void Enter(Variant arg)
         {
-            ChangeAnim();
+            _parent.PlayAnim("PlayerFloorRun", 1.25f);
+            _lastDirection = _parent.Direction;
         }
 
 
@@ -37,19 +40,27 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
         public override void PhysicsUpdate(double delta)
         {
-            Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-            direction.Y = 0;
-            direction = direction.Round();
-            
+            var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+            var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
+
             // надо ли менять состояние
-            StateTransitonCheck(direction);
+            StateTransitonCheck(inputDirectionX, inputDirectionY);
 
-            if (direction.X * _lastDirection < 0)
-                ChangeAnim();
+            // текущее направление персонажа
+            if (inputDirectionX != 0)
+                _parent.Direction = Mathf.Sign(inputDirectionX);
 
+            // если оно отличается от предыдщуего - меняем анимацию
+            if (_parent.Direction * _lastDirection < 0)
+            {
+                _parent.PlayAnim("PlayerFloorRun", 1.25f);
+                _lastDirection = _parent.Direction;
+            } 
+
+            // Применяем скорость
             var velocity = _parent.Velocity;
 
-            velocity.X = direction.X * _parent.Speed;
+            velocity.X = inputDirectionX * _parent.Speed;
 
             _parent.Velocity = velocity;
 
@@ -57,33 +68,33 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         }
 
 
-        private void ChangeAnim()
+        private void StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
-            _parent.PlayAnim("PlayerFloorRun", 1.25f);
-            _lastDirection = _parent.Direction;
-        }
-
-
-        private void StateTransitonCheck(Vector2 direction)
-        {
-            // idle
-            if (direction.X == 0)
+            // air (jump)
+            if (Input.IsActionJustPressed("jump"))
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
                 return;
             }
 
             // air (fall)
-            if (!(_parent.IsOnFloor() || _parent.IsOnWall() || _parent.IsOnCeiling()))
+            if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
                 return;
             }
 
-            // air (jump)
-            if (Input.IsActionJustPressed("jump"))
+            // floor idle
+            if (inputDirectionX == 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
+                return;
+            }
+
+            // wall idle
+            if (_parent.IsOnWall() && inputDirectionY < 0)
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
                 return;
             }
         }

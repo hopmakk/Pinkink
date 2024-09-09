@@ -1,11 +1,18 @@
 ﻿using Godot;
 using Godot.Collections;
+using static Godot.TextServer;
 
 public partial class EntityBase : CharacterBody2D
 {
     public float Speed { get; set; }            // скорость персонажа
     public float JumpVelocity { get; set; }     // скорость прыжка
-    public int Direction { get; set; }          // текущее направление, куда смотрит персонаж
+    //public int Direction { get; set; }          // текущее направление, куда смотрит персонаж
+    public int Direction
+    {
+        get { return _d; }
+        set { _d = value; }
+    }
+    private int _d;
     public AnimatedSprite2D Anim { get; set; }  // AnimatedSprite2D
     public Dictionary<string, string[]> AnimNamesWithDirection { get; set; }    // названия анимаций и их интерпритация для разных направлений
 
@@ -28,6 +35,7 @@ public partial class EntityBase : CharacterBody2D
     {
         Anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         AnimNamesWithDirection = new Dictionary<string, string[]>();
+        Direction = 1;
 
         var stateMachine = GetNodeOrNull<StateMachine>("StateMachine");
         if (stateMachine != null)
@@ -37,18 +45,15 @@ public partial class EntityBase : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 
-        if (direction.X != 0)
-            Direction = Mathf.Sign(direction.X);
     }
 
     
     // проигрывать анимацию с выбором направления
-    public bool PlayAnim(string name, float speed = 1, bool fromEnd = false)
+    public void PlayAnim(string name, float speed = 1, bool fromEnd = false)
     {
         if (!AnimNamesWithDirection.ContainsKey(name))
-            return false;
+            return;
 
         var selectedAnimNames = AnimNamesWithDirection[name];
 
@@ -56,7 +61,6 @@ public partial class EntityBase : CharacterBody2D
             Anim.Play(selectedAnimNames[1], speed, fromEnd);
         else if (Direction < 0)
             Anim.Play(selectedAnimNames[0], speed, fromEnd);
-
-        return true;
     }
+
 }

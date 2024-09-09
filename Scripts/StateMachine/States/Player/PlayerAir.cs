@@ -1,4 +1,6 @@
 ﻿using Godot;
+using PinkInk.Scripts.ProjectLogic;
+using System;
 using System.Reflection.Emit;
 
 namespace PinkInk.Scripts.StateMachine.States.Player
@@ -63,28 +65,31 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             tween1.TweenProperty(_parent.Anim, "scale", new Vector2(1.0f, 1.0f), 0.1f);
         }
 
-
-        public override void Update(double delta)
-        {
-        }
-
         
         public override void PhysicsUpdate(double delta)
         {
-            Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-            direction.Y = 0;
-            direction = direction.Round();
+            var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+            var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
 
-            if (direction.X * _lastDirection < 0)
-                ChangeAnim();
+            // текущее направление персонажа
+            if (inputDirectionX != 0)
+                _parent.Direction = Mathf.Sign(inputDirectionX);
+
+            // если оно отличается от предыдщуего - меняем анимацию
+            if (_parent.Direction * _lastDirection < 0)
+            {
+                _parent.PlayAnim("PlayerFloorRun", 1.25f);
+                _lastDirection = _parent.Direction;
+            }
 
             // запоминаем, чтобы сделать прыжок при падении
             if (Input.IsActionJustPressed("jump"))
                 _todoJumpTimer.Start();
 
+            // Применяем скорость
             var velocity = _parent.Velocity;
 
-            velocity.X = direction.X * _parent.Speed;
+            velocity.X = inputDirectionX * _parent.Speed;
 
             velocity += _parent.GetGravity() * (float)delta;
 
@@ -92,18 +97,11 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
             _parent.MoveAndSlide();
 
-            StateTransitonCheck(direction);
+            StateTransitonCheck(inputDirectionX, inputDirectionY);
         }
 
 
-        private void ChangeAnim()
-        {
-            _parent.PlayAnim("PlayerAir");
-            _lastDirection = _parent.Direction;
-        }
-
-
-        private void StateTransitonCheck(Vector2 direction)
+        private void StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
             // air (coyot jump)
             if (Input.IsActionJustPressed("jump") && _coyoteJumpTimer.TimeLeft > 0)
@@ -119,12 +117,31 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 return;
             }
 
+            // wall idle (Если мы на стене и движемся в сторону стены)
+            if (_parent.IsOnWall() && (GetWichWallCollided() * inputDirectionX > 0))
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
+                return;
+            }
+
             // floor idle
             if (_parent.IsOnFloor())
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
                 return;
             }
+        }
+
+
+        // с какой стеной было соприкосновение в последний момент
+        public int GetWichWallCollided()
+        {
+            var collision = _parent.GetLastSlideCollision();
+            if (collision.GetNormal().X > 0)
+                return -1;
+            if (collision.GetNormal().X < 0)
+                return 1;
+            return 0;
         }
     }
 }
