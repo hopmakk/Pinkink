@@ -4,7 +4,7 @@ using Godot.Collections;
 public partial class Player : EntityBase
 {
     private const float SPEED = 85.0f;
-    private const float JUMP_VELOCITY = -300.0f;
+    private const float JUMP_VELOCITY = 275.0f;
     private RichTextLabel _label;
 
     public override void _Ready()

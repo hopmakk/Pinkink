@@ -58,12 +58,12 @@ public partial class PlayerDash : State
 
     private bool StateTransitonCheck()
     {
-        // wall idle 
-        if (_parent.IsOnWall())
-        {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-            return true;
-        }
+        //// wall idle 
+        //if (_parent.IsOnWall() && Input.IsActionPressed("climb"))
+        //{
+        //    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
+        //    return true;
+        //}
 
         // air
         if (_dashTime <= 0)

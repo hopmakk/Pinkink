@@ -54,8 +54,13 @@ public partial class PlayerWallRun : State
             return true;
         }
 
-        // air (fall)
-        if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
+        // air (fall) мы в воздухе если:
+        // если мы не держимся за стену либо не находимся на поверхностях
+        // А так же мы не ползем вверх когда сверху потолок (проверка на застревание)
+        // А так же мы не ползем вниз когда сверху пол (проверка на застревание)
+        if (!Input.IsActionPressed("climb") || !(_parent.IsOnFloor() || _parent.IsOnWall())
+            && !(_parent.IsOnCeiling() && inputDirectionY < 0)
+            && !(_parent.IsOnFloor() && inputDirectionY > 0))
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
             return true;
@@ -69,7 +74,7 @@ public partial class PlayerWallRun : State
         }
         
         // floor idle
-        if (_parent.IsOnFloor() && inputDirectionY > 0)
+        if (_parent.IsOnFloor() && !Input.IsActionPressed("climb"))
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
             return true;

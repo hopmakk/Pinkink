@@ -51,7 +51,7 @@ public partial class PlayerWallIdle : State
         }
 
         // air (fall)
-        if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
+        if (!Input.IsActionPressed("climb") || !(_parent.IsOnFloor() || _parent.IsOnWall()))
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
             return true;
@@ -65,7 +65,7 @@ public partial class PlayerWallIdle : State
         }
 
         // floor idle
-        if (_parent.IsOnFloor() && inputDirectionY > 0)
+        if (_parent.IsOnFloor() && !Input.IsActionPressed("climb"))
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
             return true;

@@ -35,7 +35,11 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 _stateOrigin = (string)arg;
                 if (_stateOrigin == "jump")
                 {
-                    _parent.Velocity = new Vector2(0, _parent.JumpVelocity);
+                    var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+                    var jumpDirection = new Vector2(inputDirectionX, -1);
+
+                    _parent.Velocity = jumpDirection * _parent.JumpVelocity;
+                    //_parent.Velocity = new Vector2(0, _parent.JumpVelocity);
                     _parent.PlayAnim("PlayerAirJump", 2f);
                 }
                 else if (_stateOrigin == "dash")
@@ -49,7 +53,6 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 _coyoteJumpTimer.Start();
                 _parent.PlayAnim("PlayerAir");
             }
-            Console.WriteLine($"Velocity ({_parent.Velocity.X} ; {_parent.Velocity.Y})");
 
             _lastDirection = _parent.Direction;
         }
@@ -87,7 +90,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             // если оно отличается от предыдщуего - меняем анимацию
             if (_parent.Direction * _lastDirection < 0)
             {
-                _parent.PlayAnim("PlayerFloorRun", 1.25f);
+                _parent.PlayAnim("PlayerAir");
                 _lastDirection = _parent.Direction;
             }
 
@@ -135,8 +138,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 return true;
             }
 
-            // wall idle (Если мы на стене и движемся в сторону стены)
-            if (_parent.IsOnWall() && (GetWichWallCollided() * inputDirectionX > 0))
+            // wall idle (Если мы на стене и пытаемся карабкаться)
+            if (_parent.IsOnWall() && Input.IsActionPressed("climb"))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
                 return true;

@@ -100,7 +100,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             }
 
             // wall idle
-            if (_parent.IsOnWall() && inputDirectionY < 0)
+            if (_parent.IsOnWall() && Input.IsActionPressed("climb"))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
                 return true;
