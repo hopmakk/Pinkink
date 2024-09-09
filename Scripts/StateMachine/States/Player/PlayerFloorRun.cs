@@ -44,7 +44,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
 
             // надо ли менять состояние
-            StateTransitonCheck(inputDirectionX, inputDirectionY);
+            if (StateTransitonCheck(inputDirectionX, inputDirectionY))
+                return;
 
             // текущее направление персонажа
             if (inputDirectionX != 0)
@@ -68,35 +69,44 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         }
 
 
-        private void StateTransitonCheck(float inputDirectionX, float inputDirectionY)
+        private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
             // air (jump)
             if (Input.IsActionJustPressed("jump"))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
-                return;
+                return true;
+            }
+
+            // dash
+            if (Input.IsActionJustPressed("dash"))
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+                return true;
             }
 
             // air (fall)
             if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
-                return;
+                return true;
             }
 
             // floor idle
             if (inputDirectionX == 0)
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
-                return;
+                return true;
             }
 
             // wall idle
             if (_parent.IsOnWall() && inputDirectionY < 0)
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-                return;
+                return true;
             }
+
+            return false;
         }
     }
 }

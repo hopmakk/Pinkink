@@ -6,13 +6,7 @@ public partial class EntityBase : CharacterBody2D
 {
     public float Speed { get; set; }            // скорость персонажа
     public float JumpVelocity { get; set; }     // скорость прыжка
-    //public int Direction { get; set; }          // текущее направление, куда смотрит персонаж
-    public int Direction
-    {
-        get { return _d; }
-        set { _d = value; }
-    }
-    private int _d;
+    public int Direction { get; set; }          // текущее направление, куда смотрит персонаж
     public AnimatedSprite2D Anim { get; set; }  // AnimatedSprite2D
     public Dictionary<string, string[]> AnimNamesWithDirection { get; set; }    // названия анимаций и их интерпритация для разных направлений
 

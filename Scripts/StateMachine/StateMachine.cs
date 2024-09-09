@@ -72,6 +72,8 @@ public partial class StateMachine : Node2D
             TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Yellow);
         else if (newStateName.Contains("air"))
             TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Blue);
+        else if (newStateName.Contains("dash"))
+            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Cyan);
         Console.WriteLine();
     }
 }

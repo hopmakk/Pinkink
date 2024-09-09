@@ -29,39 +29,49 @@ public partial class PlayerWallIdle : State
         var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
         var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
 
-        StateTransitonCheck(inputDirectionX, inputDirectionY);
+        if (StateTransitonCheck(inputDirectionX, inputDirectionY))
+            return;
     }
 
 
-    private void StateTransitonCheck(float inputDirectionX, float inputDirectionY)
+    private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
     {
         // air (jump)
         if (Input.IsActionJustPressed("jump"))
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
-            return;
+            return true;
+        }
+
+        // dash
+        if (Input.IsActionJustPressed("dash"))
+        {
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+            return true;
         }
 
         // air (fall)
         if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
-            return;
+            return true;
         }
 
         // wall run
         if (inputDirectionY != 0)
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerWallRun", default);
-            return;
+            return true;
         }
 
         // floor idle
         if (_parent.IsOnFloor() && inputDirectionY > 0)
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
-            return;
+            return true;
         }
+
+        return false;
     }
 
 

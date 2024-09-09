@@ -1,19 +1,19 @@
 ﻿using Godot;
-using PinkInk.Scripts.ProjectLogic;
 using System;
-using System.Reflection.Emit;
 
 namespace PinkInk.Scripts.StateMachine.States.Player
 {
     internal partial class PlayerAir : State
     {
-        private const double COYOTE_JUMP_TIME = 0.1;   // время после падения, когда еще можно совершить прыжок
-        private const double TODO_JUMP_TIME = 0.1; // время запоминания, что надо сделать прыжок при приземлении
+        private const double COYOTE_JUMP_TIME = 0.1;    // время после падения, когда еще можно совершить прыжок
+        private const double TODO_JUMP_TIME = 0.1;      // время запоминания, что надо сделать прыжок при приземлении
+        private const float POST_DASH_Y_SPEED = -50.0f; // величина сглаживания дэша
+        private const float MAX_GRAVITY = 200.0f;       // максимально возможная гравитация
 
         private int _lastDirection;
         private Timer _coyoteJumpTimer;
-        private Timer _todoJumpTimer;
-
+        private Timer _todoJumpTimer;   
+        private string _stateOrigin;    // с каким параметром мы перешли в это состояние 
 
         public override void _Ready()
         {
@@ -23,6 +23,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
             _todoJumpTimer = GetNode<Timer>("TodoJump");
             _todoJumpTimer.WaitTime = TODO_JUMP_TIME;
+
+            _stateOrigin = "";
         }
 
 
@@ -30,10 +32,16 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         {
             if (arg.VariantType == Variant.Type.String)
             {
-                if ((string)arg == "jump")
+                _stateOrigin = (string)arg;
+                if (_stateOrigin == "jump")
                 {
-                    _parent.Velocity = new Vector2(_parent.Velocity.X, _parent.JumpVelocity);
+                    _parent.Velocity = new Vector2(0, _parent.JumpVelocity);
                     _parent.PlayAnim("PlayerAirJump", 2f);
+                }
+                else if (_stateOrigin == "dash")
+                {
+                    _parent.Velocity = new Vector2(_parent.Velocity.X, POST_DASH_Y_SPEED);
+                    _parent.PlayAnim("PlayerAir");
                 }
             }
             else
@@ -41,6 +49,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 _coyoteJumpTimer.Start();
                 _parent.PlayAnim("PlayerAir");
             }
+            Console.WriteLine($"Velocity ({_parent.Velocity.X} ; {_parent.Velocity.Y})");
 
             _lastDirection = _parent.Direction;
         }
@@ -91,45 +100,56 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
             velocity.X = inputDirectionX * _parent.Speed;
 
-            velocity += _parent.GetGravity() * (float)delta;
+            if (velocity.Y < MAX_GRAVITY)
+                velocity += _parent.GetGravity() * (float)delta;
 
             _parent.Velocity = velocity;
 
             _parent.MoveAndSlide();
 
-            StateTransitonCheck(inputDirectionX, inputDirectionY);
+            if (StateTransitonCheck(inputDirectionX, inputDirectionY))
+                return;
         }
 
 
-        private void StateTransitonCheck(float inputDirectionX, float inputDirectionY)
+        private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
             // air (coyot jump)
             if (Input.IsActionJustPressed("jump") && _coyoteJumpTimer.TimeLeft > 0)
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
-                return;
+                return true;
             }
 
             // air (jump on floor)
             if (_todoJumpTimer.TimeLeft > 0 && _parent.IsOnFloor())
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
-                return;
+                return true;
+            }
+
+            // dash
+            if (Input.IsActionJustPressed("dash"))
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+                return true;
             }
 
             // wall idle (Если мы на стене и движемся в сторону стены)
             if (_parent.IsOnWall() && (GetWichWallCollided() * inputDirectionX > 0))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-                return;
+                return true;
             }
 
             // floor idle
             if (_parent.IsOnFloor())
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
-                return;
+                return true;
             }
+
+            return false;
         }
 
 

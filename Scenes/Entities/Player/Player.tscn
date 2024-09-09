@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctp5xpcekkv4q"]
+[gd_scene load_steps=12 format=3 uid="uid://ctp5xpcekkv4q"]
 
 [ext_resource type="PackedScene" uid="uid://7x84ogxon8jh" path="res://Scenes/Entities/Entity.tscn" id="1_q63f3"]
 [ext_resource type="SpriteFrames" uid="uid://bnjjldlx8galg" path="res://Scenes/Entities/Player/Player.tres" id="2_2c1wu"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerAir.cs" id="7_4jcn2"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallIdle.cs" id="8_j2chn"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallRun.cs" id="9_7sxvb"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerDash.cs" id="10_2hi4f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvbfb"]
 radius = 6.0
@@ -20,7 +21,7 @@ script = ExtResource("2_ic5yw")
 [node name="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
 sprite_frames = ExtResource("2_2c1wu")
-animation = &"wall_run_right"
+animation = &"idle"
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -51,3 +52,6 @@ script = ExtResource("8_j2chn")
 
 [node name="PlayerWallRun" type="Node2D" parent="StateMachine" index="4"]
 script = ExtResource("9_7sxvb")
+
+[node name="PlayerDash" type="Node2D" parent="StateMachine" index="5"]
+script = ExtResource("10_2hi4f")

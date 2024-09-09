@@ -31,39 +31,49 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
             var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
 
-            StateTransitonCheck(inputDirectionX, inputDirectionY);
+            if (StateTransitonCheck(inputDirectionX, inputDirectionY))
+                return;
         }
 
 
-        private void StateTransitonCheck(float inputDirectionX, float inputDirectionY)
+        private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
             // air (jump)
             if (Input.IsActionJustPressed("jump"))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
-                return;
+                return true;
             }
 
             // air (fall)
             if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
-                return;
+                return true;
+            }
+
+            // dash
+            if (Input.IsActionJustPressed("dash"))
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+                return true;
             }
 
             // run
             if (inputDirectionX != 0)
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorRun", default);
-                return;
+                return true;
             }
 
             // wall idle
             if (_parent.IsOnWall() && inputDirectionY < 0)
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-                return;
+                return true;
             }
+
+            return false;
         }
 
     }
