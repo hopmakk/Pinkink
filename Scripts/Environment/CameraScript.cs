@@ -31,7 +31,8 @@ public partial class CameraScript : Camera2D
             Vector2 targetPosition = Player.Position;
 
             // Интерполируем позицию камеры для плавного движения
-            Vector2 newPosition = currentPosition.Lerp(targetPosition, SmoothSpeed * (float)delta);
+            //Vector2 newPosition = currentPosition.Lerp(targetPosition, SmoothSpeed * (float)delta);
+            Vector2 newPosition = targetPosition;
 
             // Обновляем позицию камеры
             Position = newPosition;

@@ -138,13 +138,6 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 return true;
             }
 
-            // wall idle (Если мы на стене и пытаемся карабкаться)
-            if (_parent.IsOnWall() && Input.IsActionPressed("climb"))
-            {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-                return true;
-            }
-
             // floor idle
             if (_parent.IsOnFloor())
             {
@@ -152,6 +145,12 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 return true;
             }
 
+            // wall slide
+            if (_parent.IsOnWall())
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
+                return true;
+            }
             return false;
         }
 

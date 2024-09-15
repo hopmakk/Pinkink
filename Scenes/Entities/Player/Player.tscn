@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctp5xpcekkv4q"]
+[gd_scene load_steps=13 format=3 uid="uid://ctp5xpcekkv4q"]
 
 [ext_resource type="PackedScene" uid="uid://7x84ogxon8jh" path="res://Scenes/Entities/Entity.tscn" id="1_q63f3"]
 [ext_resource type="SpriteFrames" uid="uid://bnjjldlx8galg" path="res://Scenes/Entities/Player/Player.tres" id="2_2c1wu"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallIdle.cs" id="8_j2chn"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallRun.cs" id="9_7sxvb"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerDash.cs" id="10_2hi4f"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallSlide.cs" id="11_y3328"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvbfb"]
 radius = 6.0
@@ -38,7 +39,16 @@ script = ExtResource("5_7l17q")
 [node name="PlayerFloorRun" type="Node2D" parent="StateMachine" index="1"]
 script = ExtResource("6_2uquv")
 
-[node name="PlayerAir" type="Node2D" parent="StateMachine" index="2"]
+[node name="PlayerWallIdle" type="Node2D" parent="StateMachine" index="2"]
+script = ExtResource("8_j2chn")
+
+[node name="PlayerWallRun" type="Node2D" parent="StateMachine" index="3"]
+script = ExtResource("9_7sxvb")
+
+[node name="PlayerWallSlide" type="Node2D" parent="StateMachine" index="4"]
+script = ExtResource("11_y3328")
+
+[node name="PlayerAir" type="Node2D" parent="StateMachine" index="5"]
 script = ExtResource("7_4jcn2")
 
 [node name="CoyoteJump" type="Timer" parent="StateMachine/PlayerAir" index="0"]
@@ -47,11 +57,7 @@ one_shot = true
 [node name="TodoJump" type="Timer" parent="StateMachine/PlayerAir" index="1"]
 one_shot = true
 
-[node name="PlayerWallIdle" type="Node2D" parent="StateMachine" index="3"]
-script = ExtResource("8_j2chn")
+[node name="PlayerJump" type="Node2D" parent="StateMachine" index="6"]
 
-[node name="PlayerWallRun" type="Node2D" parent="StateMachine" index="4"]
-script = ExtResource("9_7sxvb")
-
-[node name="PlayerDash" type="Node2D" parent="StateMachine" index="5"]
+[node name="PlayerDash" type="Node2D" parent="StateMachine" index="7"]
 script = ExtResource("10_2hi4f")

@@ -1,8 +1,10 @@
 ﻿using Godot;
 using System;
 
-public partial class PlayerWallIdle : State
+public partial class PlayerWallSlide : State
 {
+    public float SLIDE_SPEED = 50.0f;
+
     public override void _Ready()
     {
         base._Ready();
@@ -21,15 +23,20 @@ public partial class PlayerWallIdle : State
 
     public override void PhysicsUpdate(double delta)
     {
-        var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
-        var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
-
-        if (StateTransitonCheck(inputDirectionX, inputDirectionY))
+        if (StateTransitonCheck())
             return;
+
+        var velocity = _parent.Velocity;
+
+        velocity.Y = SLIDE_SPEED;
+
+        _parent.Velocity = velocity;
+
+        _parent.MoveAndSlide();
     }
 
 
-    private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
+    private bool StateTransitonCheck()
     {
         // air (jump)
         if (Input.IsActionJustPressed("jump"))
@@ -45,24 +52,24 @@ public partial class PlayerWallIdle : State
             return true;
         }
 
-        // wall run
-        if (inputDirectionY != 0)
+        // wall Idle
+        if (Input.IsActionPressed("climb") && _parent.IsOnWall())
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallRun", default);
-            return true;
-        }
-
-        // wall slide
-        if (!Input.IsActionPressed("climb") && _parent.IsOnWall())
-        {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
             return true;
         }
 
         // air (fall)
-        if (!_parent.IsOnFloor() && !_parent.IsOnWall())
+        if (!_parent.IsOnWall() && !_parent.IsOnFloor())
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+            return true;
+        }
+
+        // floor idle
+        if (_parent.IsOnFloor())
+        {
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
             return true;
         }
 

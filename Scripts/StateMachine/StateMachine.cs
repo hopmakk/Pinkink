@@ -56,7 +56,7 @@ public partial class StateMachine : Node2D
             return;
         }
         
-        var newState = States[newStateName.ToLower()];
+         var newState = States[newStateName.ToLower()];
 
         if (newState == null)
             newState = InitialState;
@@ -65,15 +65,18 @@ public partial class StateMachine : Node2D
         newState.Enter(arg);
         CurrentState = newState;
 
+        //---------------------------------
+        var player = GetParent<Player>();
+        var str = newStateName + $" / floor:{player.IsOnFloor()} wall:{player.IsOnWall()}";
         newStateName = newStateName.ToLower();
         if (newStateName.Contains("wall"))
-            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Magenta);
+            TestSingleton.ConsoleWriteL(str, ConsoleColor.Magenta);
         else if (newStateName.Contains("floor"))
-            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Yellow);
+            TestSingleton.ConsoleWriteL(str, ConsoleColor.Yellow);
         else if (newStateName.Contains("air"))
-            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Blue);
+            TestSingleton.ConsoleWriteL(str, ConsoleColor.Blue);
         else if (newStateName.Contains("dash"))
-            TestSingleton.ConsoleWriteL(newStateName, ConsoleColor.Cyan);
+            TestSingleton.ConsoleWriteL(str, ConsoleColor.Cyan);
         Console.WriteLine();
     }
 }

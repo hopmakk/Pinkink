@@ -15,11 +15,6 @@ public partial class PlayerWallRun : State
     }
 
 
-    public override void Exit()
-    {
-    }
-
-
     public override void PhysicsUpdate(double delta)
     {
         var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
@@ -54,11 +49,18 @@ public partial class PlayerWallRun : State
             return true;
         }
 
+        // wall slide
+        if (!Input.IsActionPressed("climb"))
+        {
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
+            return true;
+        }
+
         // air (fall) мы в воздухе если:
         // если мы не держимся за стену либо не находимся на поверхностях
         // А так же мы не ползем вверх когда сверху потолок (проверка на застревание)
         // А так же мы не ползем вниз когда сверху пол (проверка на застревание)
-        if (!Input.IsActionPressed("climb") || !(_parent.IsOnFloor() || _parent.IsOnWall())
+        if (!_parent.IsOnWall()
             && !(_parent.IsOnCeiling() && inputDirectionY < 0)
             && !(_parent.IsOnFloor() && inputDirectionY > 0))
         {
@@ -70,13 +72,6 @@ public partial class PlayerWallRun : State
         if (inputDirectionY == 0)
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-            return true;
-        }
-        
-        // floor idle
-        if (_parent.IsOnFloor() && !Input.IsActionPressed("climb"))
-        {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
             return true;
         }
 
