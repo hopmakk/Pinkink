@@ -13,7 +13,7 @@ public partial class PlayerWallSlide : State
 
     public override void Enter(Variant arg)
     {
-        var wallDir = GetWichWallCollided();
+        var wallDir = GetCollidedWallDirection();
         if (wallDir != 0)
             _parent.Direction = wallDir;
 
@@ -23,7 +23,10 @@ public partial class PlayerWallSlide : State
 
     public override void PhysicsUpdate(double delta)
     {
-        if (StateTransitonCheck())
+        var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+        var inputDirectionY = Input.GetAxis("ui_up", "ui_down");
+
+        if (StateTransitonCheck(inputDirectionX, inputDirectionY))
             return;
 
         var velocity = _parent.Velocity;
@@ -36,7 +39,7 @@ public partial class PlayerWallSlide : State
     }
 
 
-    private bool StateTransitonCheck()
+    private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
     {
         // air (jump)
         if (Input.IsActionJustPressed("jump"))
@@ -59,17 +62,18 @@ public partial class PlayerWallSlide : State
             return true;
         }
 
-        // air (fall)
-        if (!_parent.IsOnWall() && !_parent.IsOnFloor())
-        {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
-            return true;
-        }
-
         // floor idle
         if (_parent.IsOnFloor())
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
+            return true;
+        }
+
+        // air (fall)
+        if (!_parent.IsOnWall() && !_parent.IsOnFloor() 
+            || (inputDirectionX * GetCollidedWallDirection() <= 0))
+        {
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
             return true;
         }
 
@@ -78,7 +82,7 @@ public partial class PlayerWallSlide : State
 
 
     // с какой стеной было соприкосновение в последний момент
-    public int GetWichWallCollided()
+    public int GetCollidedWallDirection()
     {
         var collision = _parent.GetLastSlideCollision();
         if (collision.GetNormal().X > 0)

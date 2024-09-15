@@ -57,7 +57,5 @@ one_shot = true
 [node name="TodoJump" type="Timer" parent="StateMachine/PlayerAir" index="1"]
 one_shot = true
 
-[node name="PlayerJump" type="Node2D" parent="StateMachine" index="6"]
-
-[node name="PlayerDash" type="Node2D" parent="StateMachine" index="7"]
+[node name="PlayerDash" type="Node2D" parent="StateMachine" index="6"]
 script = ExtResource("10_2hi4f")

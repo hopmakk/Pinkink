@@ -60,7 +60,8 @@ public partial class PlayerWallRun : State
         // если мы не держимся за стену либо не находимся на поверхностях
         // А так же мы не ползем вверх когда сверху потолок (проверка на застревание)
         // А так же мы не ползем вниз когда сверху пол (проверка на застревание)
-        if (!_parent.IsOnWall()
+        if (!Input.IsActionPressed("climb")
+            || !_parent.IsOnWall()
             && !(_parent.IsOnCeiling() && inputDirectionY < 0)
             && !(_parent.IsOnFloor() && inputDirectionY > 0))
         {

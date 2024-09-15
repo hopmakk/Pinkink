@@ -145,18 +145,30 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 return true;
             }
 
-            // wall slide
+            // wall
             if (_parent.IsOnWall())
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
-                return true;
+                // wall idle
+                if (Input.IsActionPressed("climb"))
+                {
+                    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
+                    return true;
+                }
+
+                // wall slide (если игрок движется в сторону стены)
+                if (inputDirectionX * GetCollidedWallDirection() > 0)
+                {
+                    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
+                    return true;
+                }
+                
             }
             return false;
         }
 
 
         // с какой стеной было соприкосновение в последний момент
-        public int GetWichWallCollided()
+        public int GetCollidedWallDirection()
         {
             var collision = _parent.GetLastSlideCollision();
             if (collision.GetNormal().X > 0)

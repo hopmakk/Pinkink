@@ -11,7 +11,11 @@ public partial class PlayerWallIdle : State
 
     public override void Enter(Variant arg)
     {
-        var wallDir = GetWichWallCollided();
+        // сбросим вертикальную скорость
+        _parent.Velocity = new Vector2(_parent.Velocity.X, 0);
+
+        // обновим направление игрока
+        var wallDir = GetCollidedWallDirection();
         if (wallDir != 0)
             _parent.Direction = wallDir;
 
@@ -52,15 +56,9 @@ public partial class PlayerWallIdle : State
             return true;
         }
 
-        // wall slide
-        if (!Input.IsActionPressed("climb") && _parent.IsOnWall())
-        {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
-            return true;
-        }
-
         // air (fall)
-        if (!_parent.IsOnFloor() && !_parent.IsOnWall())
+        if (!Input.IsActionPressed("climb")
+            || !_parent.IsOnFloor() && !_parent.IsOnWall())
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
             return true;
@@ -71,7 +69,7 @@ public partial class PlayerWallIdle : State
 
 
     // с какой стеной было соприкосновение в последний момент
-    public int GetWichWallCollided()
+    public int GetCollidedWallDirection()
     {
         var collision = _parent.GetLastSlideCollision();
         if (collision.GetNormal().X > 0)
