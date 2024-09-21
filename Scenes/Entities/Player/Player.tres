@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=25 format=3 uid="uid://bnjjldlx8galg"]
+[gd_resource type="SpriteFrames" load_steps=26 format=3 uid="uid://bnjjldlx8galg"]
 
 [ext_resource type="Texture2D" uid="uid://j5471p4qfodo" path="res://Assets/Entities/Slime/Slime-Sheet.png" id="1_gfss3"]
 
@@ -9,6 +9,10 @@ region = Rect2(48, 16, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_foadq"]
 atlas = ExtResource("1_gfss3")
 region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ja8tu"]
+atlas = ExtResource("1_gfss3")
+region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2cvpx"]
 atlas = ExtResource("1_gfss3")
@@ -110,6 +114,14 @@ animations = [{
 }],
 "loop": false,
 "name": &"air_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ja8tu")
+}],
+"loop": false,
+"name": &"death",
 "speed": 5.0
 }, {
 "frames": [{

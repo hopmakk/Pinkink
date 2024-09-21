@@ -8,6 +8,7 @@ public partial class EntityBase : CharacterBody2D
     public float JumpVelocity { get; set; }     // скорость прыжка
     public int Direction { get; set; }          // текущее направление, куда смотрит персонаж
     public AnimatedSprite2D Anim { get; set; }  // AnimatedSprite2D
+    public HealthComponent HealthComponent { get; set; }  // HealthComponent
     public Dictionary<string, string[]> AnimNamesWithDirection { get; set; }    // названия анимаций и их интерпритация для разных направлений
 
     // Запрос и прерывание новой Tween анимации
@@ -28,6 +29,7 @@ public partial class EntityBase : CharacterBody2D
     public override void _Ready()
     {
         Anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        HealthComponent = GetNode<HealthComponent>("Components/HealthComponent");
         AnimNamesWithDirection = new Dictionary<string, string[]>();
         Direction = 1;
 

@@ -77,6 +77,8 @@ public partial class StateMachine : Node2D
             TestSingleton.ConsoleWriteL(str, ConsoleColor.Blue);
         else if (newStateName.Contains("dash"))
             TestSingleton.ConsoleWriteL(str, ConsoleColor.Cyan);
+        else if (newStateName.Contains("death"))
+            TestSingleton.ConsoleWriteL(str, ConsoleColor.Red);
         Console.WriteLine();
     }
 }

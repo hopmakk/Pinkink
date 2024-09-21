@@ -58,6 +58,13 @@ public partial class PlayerDash : State
 
     private bool StateTransitonCheck()
     {
+        // death
+        if (_parent.HealthComponent.CurrentHP <= 0)
+        {
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+            return true;
+        }
+
         // air
         if (_dashTime <= 0)
         {

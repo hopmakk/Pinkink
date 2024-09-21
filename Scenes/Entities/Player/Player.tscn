@@ -1,33 +1,68 @@
-[gd_scene load_steps=13 format=3 uid="uid://ctp5xpcekkv4q"]
+[gd_scene load_steps=22 format=3 uid="uid://ctp5xpcekkv4q"]
 
 [ext_resource type="PackedScene" uid="uid://7x84ogxon8jh" path="res://Scenes/Entities/Entity.tscn" id="1_q63f3"]
 [ext_resource type="SpriteFrames" uid="uid://bnjjldlx8galg" path="res://Scenes/Entities/Player/Player.tres" id="2_2c1wu"]
 [ext_resource type="Script" path="res://Scripts/Entities/Player/Player.cs" id="2_ic5yw"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/StateMachine.cs" id="3_t8bkd"]
+[ext_resource type="PackedScene" uid="uid://2utmugfbn833" path="res://Scenes/Components/HealthComponentScene.tscn" id="4_8l6sv"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorIdle.cs" id="5_7l17q"]
+[ext_resource type="PackedScene" uid="uid://duggl38ysk52g" path="res://Scenes/Components/HitboxComponentScene.tscn" id="5_f0inv"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorRun.cs" id="6_2uquv"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerAir.cs" id="7_4jcn2"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallIdle.cs" id="8_j2chn"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallRun.cs" id="9_7sxvb"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerDash.cs" id="10_2hi4f"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallSlide.cs" id="11_y3328"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerDeath.cs" id="14_2s2g4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvbfb"]
 radius = 6.0
 height = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fv0h8"]
+radius = 6.5
+
+[sub_resource type="Gradient" id="Gradient_dw2jq"]
+colors = PackedColorArray(0.890196, 0.537255, 1, 1, 0.568627, 0.160784, 0.521569, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_q5wd5"]
+gradient = SubResource("Gradient_dw2jq")
+
+[sub_resource type="Curve" id="Curve_iy40n"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4um55"]
+curve = SubResource("Curve_iy40n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qfcsy"]
+particle_flag_disable_z = true
+radial_velocity_min = 41.51
+radial_velocity_max = 42.51
+gravity = Vector3(0, 0, 0)
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_4um55")
+color_ramp = SubResource("GradientTexture1D_q5wd5")
 
 [node name="Player" instance=ExtResource("1_q63f3")]
 script = ExtResource("2_ic5yw")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 texture_filter = 1
+position = Vector2(0, 6)
 sprite_frames = ExtResource("2_2c1wu")
 animation = &"idle"
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(0, -6)
 shape = SubResource("CapsuleShape2D_cvbfb")
+
+[node name="HealthComponent" parent="Components" index="0" instance=ExtResource("4_8l6sv")]
+
+[node name="HitboxComponent" parent="Components" index="1" instance=ExtResource("5_f0inv")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Components/HitboxComponent" index="0"]
+shape = SubResource("CircleShape2D_fv0h8")
 
 [node name="StateMachine" type="Node2D" parent="." index="3" node_paths=PackedStringArray("InitialState")]
 script = ExtResource("3_t8bkd")
@@ -59,3 +94,15 @@ one_shot = true
 
 [node name="PlayerDash" type="Node2D" parent="StateMachine" index="6"]
 script = ExtResource("10_2hi4f")
+
+[node name="PlayerDeath" type="Node2D" parent="StateMachine" index="7"]
+script = ExtResource("14_2s2g4")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="StateMachine/PlayerDeath" index="0"]
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_qfcsy")
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+local_coords = true

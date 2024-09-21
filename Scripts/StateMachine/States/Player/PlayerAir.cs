@@ -117,6 +117,13 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
         private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
+            // death
+            if (_parent.HealthComponent.CurrentHP <= 0)
+            {
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+                return true;
+            }
+
             // air (coyot jump)
             if (Input.IsActionJustPressed("jump") && _coyoteJumpTimer.TimeLeft > 0)
             {
