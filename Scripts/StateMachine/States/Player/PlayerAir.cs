@@ -12,7 +12,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
         private int _lastDirection;
         private Vector2 _lastVelocity;
-        private string _stateOrigin;    // с каким параметром мы перешли в это состояние 
+        private string _stateParam;    // с каким параметром мы перешли в это состояние 
         private GpuParticles2D GPUParticles2D;
         private Timer _coyoteJumpTimer;
         private Timer _todoJumpTimer;   
@@ -30,7 +30,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             _todoJumpTimer = GetNode<Timer>("TodoJump");
             _todoJumpTimer.WaitTime = TODO_JUMP_TIME;
 
-            _stateOrigin = "";
+            _stateParam = "";
             _lastVelocity = Vector2.Zero;
         }
 
@@ -39,17 +39,24 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         {
             if (arg.VariantType == Variant.Type.String)
             {
-                _stateOrigin = (string)arg;
-                if (_stateOrigin == "jump")
+                _stateParam = (string)arg;
+                if (_stateParam == "jump")
                 {
                     var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
                     var jumpDirection = new Vector2(inputDirectionX, -1);
-
                     _parent.Velocity = jumpDirection * _parent.JumpVelocity;
-                    //_parent.Velocity = new Vector2(0, _parent.JumpVelocity);
                     _parent.PlayAnim("PlayerAirJump", 2f);
                 }
-                else if (_stateOrigin == "dash")
+
+                else if (_stateParam == "jumpWall")
+                {
+                    var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+                    var jumpDirection = new Vector2(inputDirectionX, -1);
+                    _parent.Velocity = jumpDirection * _parent.JumpVelocity;
+                    _parent.PlayAnim("PlayerAir", 2f);
+                }
+
+                else if (_stateParam == "dash")
                 {
                     _parent.Velocity = new Vector2(_parent.Velocity.X, POST_DASH_Y_SPEED);
                     _parent.PlayAnim("PlayerAir");
@@ -57,7 +64,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             }
             else
             {
-                _stateOrigin = "";
+                _stateParam = "";
                 _coyoteJumpTimer.Start();
                 _parent.PlayAnim("PlayerAir");
             }
@@ -149,7 +156,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             }
 
             // dash
-            if (Input.IsActionJustPressed("dash") && _stateOrigin != "dash")
+            if (Input.IsActionJustPressed("dash") && _stateParam != "dash")
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
                 return true;
@@ -174,8 +181,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                     return true;
                 }
 
-                // wall slide (если игрок движется в сторону стены)
-                if (inputDirectionX * GetCollidedWallDirection() > 0)
+                // wall slide (если игрок движется в сторону стены и вертикальная скорость направлена вниз)
+                if (inputDirectionX * GetCollidedWallDirection() > 0 && _parent.Velocity.Y >= 0)
                 {
                     EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
                     return true;

@@ -51,7 +51,11 @@ public partial class PlayerWallSlide : State
         // air (jump)
         if (Input.IsActionJustPressed("jump"))
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+            // если игрок указывает вниз и прыгает - отцепляемся, иначе - прыгаем
+            if (inputDirectionY == 1 && inputDirectionX == 0)
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+            else
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jumpWall");
             return true;
         }
 
@@ -77,8 +81,8 @@ public partial class PlayerWallSlide : State
         }
 
         // air (fall)
-        if (!_parent.IsOnWall() && !_parent.IsOnFloor() 
-            || (inputDirectionX * GetCollidedWallDirection() <= 0))
+        if (!_parent.IsOnWall() && !_parent.IsOnFloor() )
+            //|| (inputDirectionX * GetCollidedWallDirection() <= 0))
         {
             EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
             return true;
