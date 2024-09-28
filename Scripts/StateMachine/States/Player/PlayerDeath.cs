@@ -52,6 +52,14 @@ public partial class PlayerDeath : State
 
     private bool StateTransitonCheck()
     {
+        if (Input.IsActionJustPressed("menu"))
+        {
+            _parent.GlobalTransform = new Transform2D(0, Vector2.Zero);
+            _parent.HealthComponent.CurrentHP = 1;
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+            return true;
+        }
+
         return false;
     }
 }

@@ -1,10 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://ctp5xpcekkv4q"]
+[gd_scene load_steps=31 format=3 uid="uid://ctp5xpcekkv4q"]
 
 [ext_resource type="PackedScene" uid="uid://7x84ogxon8jh" path="res://Scenes/Entities/Entity.tscn" id="1_q63f3"]
 [ext_resource type="SpriteFrames" uid="uid://bnjjldlx8galg" path="res://Scenes/Entities/Player/Player.tres" id="2_2c1wu"]
 [ext_resource type="Script" path="res://Scripts/Entities/Player/Player.cs" id="2_ic5yw"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/StateMachine.cs" id="3_t8bkd"]
-[ext_resource type="PackedScene" uid="uid://2utmugfbn833" path="res://Scenes/Components/HealthComponentScene.tscn" id="4_8l6sv"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorIdle.cs" id="5_7l17q"]
 [ext_resource type="PackedScene" uid="uid://duggl38ysk52g" path="res://Scenes/Components/HitboxComponentScene.tscn" id="5_f0inv"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerFloorRun.cs" id="6_2uquv"]
@@ -22,6 +21,48 @@ height = 12.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_fv0h8"]
 radius = 6.5
 
+[sub_resource type="Gradient" id="Gradient_6cpb6"]
+colors = PackedColorArray(0.756863, 0.364706, 0.545098, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_acnam"]
+gradient = SubResource("Gradient_6cpb6")
+
+[sub_resource type="Curve" id="Curve_a3puf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gvoch"]
+curve = SubResource("Curve_a3puf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rir17"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 90.0
+initial_velocity_min = 50.0
+initial_velocity_max = 70.0
+gravity = Vector3(0, 154.26, 0)
+scale_min = 2.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_gvoch")
+color_ramp = SubResource("GradientTexture1D_acnam")
+
+[sub_resource type="Gradient" id="Gradient_7xgaa"]
+offsets = PackedFloat32Array(0, 0.704918, 1)
+colors = PackedColorArray(0.815647, 0.656952, 0.912189, 1, 0.594491, 0.0261409, 0.495107, 1, 0.478431, 0.0470588, 0.741176, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ihw2j"]
+gradient = SubResource("Gradient_7xgaa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7b4dj"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 7.0
+spread = 180.0
+initial_velocity_min = 3.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_ihw2j")
+
 [sub_resource type="Gradient" id="Gradient_dw2jq"]
 colors = PackedColorArray(0.890196, 0.537255, 1, 1, 0.568627, 0.160784, 0.521569, 1)
 
@@ -37,12 +78,25 @@ curve = SubResource("Curve_iy40n")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qfcsy"]
 particle_flag_disable_z = true
-radial_velocity_min = 41.51
-radial_velocity_max = 42.51
+radial_velocity_min = 50.0
+radial_velocity_max = 100.0
 gravity = Vector3(0, 0, 0)
-scale_max = 3.0
+scale_min = 2.0
+scale_max = 4.0
 scale_curve = SubResource("CurveTexture_4um55")
 color_ramp = SubResource("GradientTexture1D_q5wd5")
+
+[sub_resource type="Gradient" id="Gradient_yndti"]
+offsets = PackedFloat32Array(0, 0.285714, 0.558442)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.488372, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0fka7"]
+gradient = SubResource("Gradient_yndti")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 1)
 
 [node name="Player" instance=ExtResource("1_q63f3")]
 script = ExtResource("2_ic5yw")
@@ -57,9 +111,7 @@ offset = Vector2(0, -8)
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource("CapsuleShape2D_cvbfb")
 
-[node name="HealthComponent" parent="Components" index="0" instance=ExtResource("4_8l6sv")]
-
-[node name="HitboxComponent" parent="Components" index="1" instance=ExtResource("5_f0inv")]
+[node name="HitboxComponent" parent="Components" index="0" instance=ExtResource("5_f0inv")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Components/HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_fv0h8")
@@ -92,17 +144,38 @@ one_shot = true
 [node name="TodoJump" type="Timer" parent="StateMachine/PlayerAir" index="1"]
 one_shot = true
 
+[node name="GPUParticles2D" type="GPUParticles2D" parent="StateMachine/PlayerAir" index="2"]
+emitting = false
+amount = 10
+process_material = SubResource("ParticleProcessMaterial_rir17")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.95
+
 [node name="PlayerDash" type="Node2D" parent="StateMachine" index="6"]
 script = ExtResource("10_2hi4f")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="StateMachine/PlayerDash" index="0"]
+emitting = false
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_7b4dj")
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.8
 
 [node name="PlayerDeath" type="Node2D" parent="StateMachine" index="7"]
 script = ExtResource("14_2s2g4")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="StateMachine/PlayerDeath" index="0"]
 emitting = false
-amount = 50
+amount = 20
 process_material = SubResource("ParticleProcessMaterial_qfcsy")
 lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 local_coords = true
+
+[node name="PointLight2D" type="PointLight2D" parent="." index="4"]
+energy = 0.5
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_0fka7")

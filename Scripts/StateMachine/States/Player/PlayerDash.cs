@@ -7,6 +7,8 @@ public partial class PlayerDash : State
 
     private float _dashTime;
 
+    private GpuParticles2D GPUParticles2D;
+
     public override void _Ready()
     {
         base._Ready();
@@ -16,6 +18,8 @@ public partial class PlayerDash : State
     public override void Enter(Variant arg)
     {
         _dashTime = DASH_LENGTH / DASH_SPEED;
+        GPUParticles2D = GetNode<GpuParticles2D>("GPUParticles2D");
+        GPUParticles2D.Restart();
 
         var direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 

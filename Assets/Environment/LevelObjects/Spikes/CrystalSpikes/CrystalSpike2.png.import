@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://htdb7564r22k"
-path="res://.godot/imported/Tileset1.png-6d732296a2a61cff61e02e4427d68432.ctex"
+uid="uid://dfjffsflqj2m2"
+path="res://.godot/imported/CrystalSpike2.png-803e2be79c36a19cc1b668b6736ab095.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tileset1.png"
-dest_files=["res://.godot/imported/Tileset1.png-6d732296a2a61cff61e02e4427d68432.ctex"]
+source_file="res://Assets/Environment/LevelObjects/Spikes/CrystalSpikes/CrystalSpike2.png"
+dest_files=["res://.godot/imported/CrystalSpike2.png-803e2be79c36a19cc1b668b6736ab095.ctex"]
 
 [params]
 

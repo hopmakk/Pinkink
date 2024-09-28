@@ -29,10 +29,5 @@ public partial class HealthComponent : Node2D
 	public void DoDamage(Attack attack)
 	{
 		CurrentHP -= attack.Damage;
-
-		if (CurrentHP < 0)
-		{
-			GetParent().QueueFree();
-		}
     }
 }

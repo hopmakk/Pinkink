@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvjs6h0uujgur"]
+
+[ext_resource type="PackedScene" uid="uid://cklvxwc544nyy" path="res://Scenes/Level/Traps/Spikes.tscn" id="1_6yhou"]
+[ext_resource type="Texture2D" uid="uid://dfjffsflqj2m2" path="res://Assets/Environment/LevelObjects/Spikes/CrystalSpikes/CrystalSpike2.png" id="2_gfuxl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oficn"]
+size = Vector2(27.5, 11.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2558"]
+size = Vector2(28, 11)
+
+[node name="Spikes" instance=ExtResource("1_6yhou")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_gfuxl")
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_oficn")
+
+[node name="CollisionShape2D" parent="Components/HurtboxComponent" index="0"]
+shape = SubResource("RectangleShape2D_x2558")

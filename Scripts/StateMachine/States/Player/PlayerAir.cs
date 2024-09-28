@@ -11,13 +11,19 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         private const float MAX_GRAVITY = 200.0f;       // максимально возможная гравитация
 
         private int _lastDirection;
+        private Vector2 _lastVelocity;
+        private string _stateOrigin;    // с каким параметром мы перешли в это состояние 
+        private GpuParticles2D GPUParticles2D;
         private Timer _coyoteJumpTimer;
         private Timer _todoJumpTimer;   
-        private string _stateOrigin;    // с каким параметром мы перешли в это состояние 
+
 
         public override void _Ready()
         {
             base._Ready();
+
+            GPUParticles2D = GetNode<GpuParticles2D>("GPUParticles2D");
+
             _coyoteJumpTimer = GetNode<Timer>("CoyoteJump");
             _coyoteJumpTimer.WaitTime = COYOTE_JUMP_TIME;
 
@@ -25,6 +31,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             _todoJumpTimer.WaitTime = TODO_JUMP_TIME;
 
             _stateOrigin = "";
+            _lastVelocity = Vector2.Zero;
         }
 
 
@@ -50,6 +57,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             }
             else
             {
+                _stateOrigin = "";
                 _coyoteJumpTimer.Start();
                 _parent.PlayAnim("PlayerAir");
             }
@@ -112,6 +120,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
             if (StateTransitonCheck(inputDirectionX, inputDirectionY))
                 return;
+
+            _lastVelocity = _parent.Velocity;
         }
 
 
@@ -139,7 +149,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             }
 
             // dash
-            if (Input.IsActionJustPressed("dash"))
+            if (Input.IsActionJustPressed("dash") && _stateOrigin != "dash")
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
                 return true;
@@ -149,6 +159,8 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             if (_parent.IsOnFloor())
             {
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
+                if (_lastVelocity.Y >= MAX_GRAVITY)
+                    GPUParticles2D.Restart();
                 return true;
             }
 

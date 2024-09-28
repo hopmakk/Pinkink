@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://7x84ogxon8jh"]
+[gd_scene load_steps=3 format=3 uid="uid://7x84ogxon8jh"]
 
 [ext_resource type="Script" path="res://Scripts/Entities/EntityBase.cs" id="1_41ilr"]
+[ext_resource type="PackedScene" uid="uid://2utmugfbn833" path="res://Scenes/Components/HealthComponentScene.tscn" id="2_qbcmn"]
 
 [node name="Entity" type="CharacterBody2D"]
 script = ExtResource("1_41ilr")
@@ -10,3 +11,5 @@ script = ExtResource("1_41ilr")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="Components" type="Node2D" parent="."]
+
+[node name="HealthComponent" parent="Components" instance=ExtResource("2_qbcmn")]
