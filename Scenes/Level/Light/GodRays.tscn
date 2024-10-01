@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://do7ugv2c12gvh"]
+[gd_scene load_steps=10 format=3 uid="uid://clyuic01ktijd"]
 
 [ext_resource type="Shader" path="res://Shaders/LightRays.gdshader" id="1_suavv"]
 
@@ -6,11 +6,11 @@
 shader = ExtResource("1_suavv")
 shader_parameter/angle = -0.3
 shader_parameter/position = -0.2
-shader_parameter/spread = 0.5
-shader_parameter/cutoff = 0.1
-shader_parameter/falloff = 0.2
-shader_parameter/edge_fade = 0.15
-shader_parameter/speed = 1.0
+shader_parameter/spread = 0.387
+shader_parameter/cutoff = 0.122
+shader_parameter/falloff = 0.031
+shader_parameter/edge_fade = 0.24
+shader_parameter/speed = 1.52
 shader_parameter/ray1_density = 8.0
 shader_parameter/ray2_density = 30.0
 shader_parameter/ray2_intensity = 0.3
@@ -24,6 +24,15 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_u8tbn"]
 gradient = SubResource("Gradient_7pbn7")
 
+[sub_resource type="Gradient" id="Gradient_fajyl"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_b80sb"]
+gradient = SubResource("Gradient_fajyl")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
 [sub_resource type="Gradient" id="Gradient_6kpfv"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
@@ -35,21 +44,26 @@ particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(14, 12, 1)
 spread = 180.0
-initial_velocity_min = 1.0
-initial_velocity_max = 3.0
+initial_velocity_min = 0.5
+initial_velocity_max = 2.0
 gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_l3vdu")
 
 [node name="GodRays" type="Sprite2D"]
 z_index = 1
 material = SubResource("ShaderMaterial_kkbld")
-position = Vector2(80, 4)
+position = Vector2(-10, -19.5)
+scale = Vector2(1.21875, 1.23438)
 texture = SubResource("GradientTexture2D_u8tbn")
 
 [node name="Light" type="PointLight2D" parent="."]
-position = Vector2(-80, -4)
+position = Vector2(-3.31428, 9.98921)
+rotation = 0.991943
+scale = Vector2(1.96506, 1.51869)
+energy = 0.9
+texture = SubResource("GradientTexture2D_b80sb")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(-4, 8)
-amount = 6
+amount = 5
 process_material = SubResource("ParticleProcessMaterial_oaucr")

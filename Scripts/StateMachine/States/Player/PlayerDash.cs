@@ -1,6 +1,8 @@
 ﻿using Godot;
+using Godot.Collections;
+using System;
 
-public partial class PlayerDash : State
+public partial class PlayerDash : PlayerStateBase
 {
     private const float DASH_SPEED = 500.0f;
     private const float DASH_LENGTH = 45.0f;
@@ -15,8 +17,12 @@ public partial class PlayerDash : State
     }
 
 
-    public override void Enter(Variant arg)
+    public override void Enter()
     {
+        _player.DashAvailable = false;
+        _player.ModulateTween.Kill();
+        _player.Anim.Modulate = Color.Color8(170, 255, 255);
+
         _dashTime = DASH_LENGTH / DASH_SPEED;
         GPUParticles2D = GetNode<GpuParticles2D>("GPUParticles2D");
         GPUParticles2D.Restart();
@@ -25,27 +31,27 @@ public partial class PlayerDash : State
 
         // текущее направление персонажа
         if (direction == Vector2.Zero)
-            direction.X = _parent.Direction;
+            direction.X = _player.Direction;
 
         // Применяем скорость
-        _parent.Velocity = direction * DASH_SPEED;
+        _player.Velocity = direction * DASH_SPEED;
     }
 
 
     public override void Exit()
     {
-        Tween tween = _parent.AnimSpriteTween;
-        tween.TweenProperty(_parent.Anim, "skew", 0.1, 0.1f);
-        tween.TweenProperty(_parent.Anim, "skew", -0.1, 0.1f);
-        tween.TweenProperty(_parent.Anim, "skew", 0.05, 0.1f);
-        tween.TweenProperty(_parent.Anim, "skew", -0.05, 0.1f);
-        tween.TweenProperty(_parent.Anim, "skew", 0.02, 0.1f);
-        tween.TweenProperty(_parent.Anim, "skew", -0.02, 0.1f);
-        tween.TweenProperty(_parent.Anim, "skew", 0, 0.1f);
+        Tween tween = _player.SkewTween;
+        tween.TweenProperty(_player.Anim, "skew", 0.1, 0.1f);
+        tween.TweenProperty(_player.Anim, "skew", -0.1, 0.1f);
+        tween.TweenProperty(_player.Anim, "skew", 0.05, 0.1f);
+        tween.TweenProperty(_player.Anim, "skew", -0.05, 0.1f);
+        tween.TweenProperty(_player.Anim, "skew", 0.02, 0.1f);
+        tween.TweenProperty(_player.Anim, "skew", -0.02, 0.1f);
+        tween.TweenProperty(_player.Anim, "skew", 0, 0.1f);
 
-        Tween tween1 = _parent.GetTree().CreateTween();
-        tween1.TweenProperty(_parent.Anim, "scale", new Vector2(1.1f, 0.9f), 0.1f);
-        tween1.TweenProperty(_parent.Anim, "scale", new Vector2(1.0f, 1.0f), 0.1f);
+        Tween tween1 = _player.GetTree().CreateTween();
+        tween1.TweenProperty(_player.Anim, "scale", new Vector2(1.1f, 0.9f), 0.1f);
+        tween1.TweenProperty(_player.Anim, "scale", new Vector2(1.0f, 1.0f), 0.1f);
     }
 
 
@@ -53,7 +59,7 @@ public partial class PlayerDash : State
     {
         _dashTime -= (float)delta;
 
-        _parent.MoveAndSlide();
+        _player.MoveAndSlide();
 
         if (StateTransitonCheck())
             return;
@@ -63,16 +69,17 @@ public partial class PlayerDash : State
     private bool StateTransitonCheck()
     {
         // death
-        if (_parent.HealthComponent.CurrentHP <= 0)
+        if (_player.HealthComponent.CurrentHP <= 0)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath");
             return true;
         }
 
         // air
         if (_dashTime <= 0)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "dash");
+            Args["AirStateParam"] = "dash";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
             return true;
         }
 

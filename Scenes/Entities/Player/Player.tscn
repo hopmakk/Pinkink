@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ctp5xpcekkv4q"]
+[gd_scene load_steps=34 format=3 uid="uid://ctp5xpcekkv4q"]
 
 [ext_resource type="PackedScene" uid="uid://7x84ogxon8jh" path="res://Scenes/Entities/Entity.tscn" id="1_q63f3"]
 [ext_resource type="SpriteFrames" uid="uid://bnjjldlx8galg" path="res://Scenes/Entities/Player/Player.tres" id="2_2c1wu"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallRun.cs" id="9_7sxvb"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerDash.cs" id="10_2hi4f"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerWallSlide.cs" id="11_y3328"]
+[ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerStartState.cs" id="14_2a7e6"]
 [ext_resource type="Script" path="res://Scripts/StateMachine/States/Player/PlayerDeath.cs" id="14_2s2g4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvbfb"]
@@ -46,6 +47,12 @@ scale_max = 4.0
 scale_curve = SubResource("CurveTexture_gvoch")
 color_ramp = SubResource("GradientTexture1D_acnam")
 
+[sub_resource type="Gradient" id="Gradient_ou82j"]
+colors = PackedColorArray(0.815686, 0.658824, 0.913725, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hxrcc"]
+gradient = SubResource("Gradient_ou82j")
+
 [sub_resource type="Gradient" id="Gradient_7xgaa"]
 offsets = PackedFloat32Array(0, 0.704918, 1)
 colors = PackedColorArray(0.815647, 0.656952, 0.912189, 1, 0.594491, 0.0261409, 0.495107, 1, 0.478431, 0.0470588, 0.741176, 0)
@@ -62,6 +69,7 @@ initial_velocity_min = 3.0
 initial_velocity_max = 5.0
 gravity = Vector3(0, 0, 0)
 color_ramp = SubResource("GradientTexture1D_ihw2j")
+color_initial_ramp = SubResource("GradientTexture1D_hxrcc")
 
 [sub_resource type="Gradient" id="Gradient_dw2jq"]
 colors = PackedColorArray(0.890196, 0.537255, 1, 1, 0.568627, 0.160784, 0.521569, 1)
@@ -99,6 +107,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 1)
 
 [node name="Player" instance=ExtResource("1_q63f3")]
+collision_layer = 2
 script = ExtResource("2_ic5yw")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
@@ -112,16 +121,21 @@ offset = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_cvbfb")
 
 [node name="HitboxComponent" parent="Components" index="0" instance=ExtResource("5_f0inv")]
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Components/HitboxComponent" index="0"]
 shape = SubResource("CircleShape2D_fv0h8")
 
 [node name="StateMachine" type="Node2D" parent="." index="3" node_paths=PackedStringArray("InitialState")]
 script = ExtResource("3_t8bkd")
-InitialState = NodePath("PlayerFloorIdle")
+InitialState = NodePath("PlayerStartState")
 
 [node name="PlayerFloorIdle" type="Node2D" parent="StateMachine" index="0"]
 script = ExtResource("5_7l17q")
+
+[node name="DashReload" type="Timer" parent="StateMachine/PlayerFloorIdle" index="0"]
+one_shot = true
 
 [node name="PlayerFloorRun" type="Node2D" parent="StateMachine" index="1"]
 script = ExtResource("6_2uquv")
@@ -174,6 +188,9 @@ lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 local_coords = true
+
+[node name="PlayerStartState" type="Node2D" parent="StateMachine" index="8"]
+script = ExtResource("14_2a7e6")
 
 [node name="PointLight2D" type="PointLight2D" parent="." index="4"]
 energy = 0.5

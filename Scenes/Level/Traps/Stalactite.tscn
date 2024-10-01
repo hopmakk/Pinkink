@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://beix21y7v5r7x"]
+
+[ext_resource type="Texture2D" uid="uid://b6udrmi57psrm" path="res://Assets/Environment/LevelObjects/Stalactite/Stalactite.png" id="1_r3mfc"]
+[ext_resource type="Script" path="res://Scripts/LevelObjects/Traps/Stalactite.cs" id="1_s57a4"]
+[ext_resource type="PackedScene" uid="uid://cmkwyvu45kv3o" path="res://Scenes/Components/HurtboxComponentScene.tscn" id="2_xjuo3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5wpvs"]
+size = Vector2(7, 15)
+
+[sub_resource type="Curve" id="Curve_tmlsd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_n38lh"]
+curve = SubResource("Curve_tmlsd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2uej1"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 98, 0)
+scale_curve = SubResource("CurveTexture_n38lh")
+
+[node name="Stalactite" type="CharacterBody2D"]
+script = ExtResource("1_s57a4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 16)
+texture = ExtResource("1_r3mfc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 7.5)
+shape = SubResource("RectangleShape2D_5wpvs")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0.5, 31)
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_2uej1")
+lifetime = 3.0
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0.5, 0.5)
+target_position = Vector2(0, 500)
+collision_mask = 11
+
+[node name="HurtboxComponent" parent="." instance=ExtResource("2_xjuo3")]
+collision_mask = 20
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent"]
+position = Vector2(0, 15.5)
+scale = Vector2(0.5, 1.55)
+polygon = PackedVector2Array(-4, -0.322581, 6, -0.322581, 2, 10, 0, 10)

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cmkwyvu45kv3o" path="res://Scenes/Components/HurtboxComponentScene.tscn" id="2_gfstv"]
 
 [node name="Spikes" type="StaticBody2D"]
+collision_mask = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -13,8 +14,7 @@ position = Vector2(0, -2)
 [node name="Components" type="Node2D" parent="."]
 
 [node name="HurtboxComponent" parent="Components" instance=ExtResource("2_gfstv")]
-collision_layer = 1
-collision_mask = 1
+collision_mask = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Components/HurtboxComponent"]
 position = Vector2(0, -0.5)

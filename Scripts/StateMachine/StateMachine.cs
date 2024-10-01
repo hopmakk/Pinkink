@@ -30,7 +30,7 @@ public partial class StateMachine : Node2D
         if (InitialState != null)
         {
             CurrentState = InitialState;
-            CurrentState.Enter("");
+            CurrentState.Enter();
         }
     }
 
@@ -49,7 +49,7 @@ public partial class StateMachine : Node2D
     }
 
 
-    private void OnChildTransition(State state, string newStateName, Variant arg)
+    private void OnChildTransition(State state, string newStateName)
     {
         if (state != CurrentState)
         {
@@ -62,7 +62,8 @@ public partial class StateMachine : Node2D
             newState = InitialState;
 
         state.Exit();
-        newState.Enter(arg);
+        newState.Args = state.Args;
+        newState.Enter();
         CurrentState = newState;
 
         //---------------------------------

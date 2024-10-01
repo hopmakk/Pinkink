@@ -1,7 +1,8 @@
 ﻿using Godot;
+using Godot.Collections;
 using System;
 
-public partial class PlayerDeath : State
+public partial class PlayerDeath : PlayerStateBase
 {
     private const float MAX_GRAVITY = 200.0f;       // максимально возможная гравитация
     private GpuParticles2D GPUParticles2D;
@@ -12,9 +13,9 @@ public partial class PlayerDeath : State
         GPUParticles2D = GetNode<GpuParticles2D>("GPUParticles2D");
     }
 
-    public override void Enter(Variant arg)
+    public override void Enter()
     {
-        _parent.Anim.Play("death");
+        _player.Anim.Play("death");
         GPUParticles2D.Restart();
     }
 
@@ -27,10 +28,10 @@ public partial class PlayerDeath : State
     public override void PhysicsUpdate(double delta)
     {
         // Применяем скорость
-        var velocity = _parent.Velocity;
+        var velocity = _player.Velocity;
 
         if (velocity.Y < MAX_GRAVITY)
-            velocity += _parent.GetGravity() * (float)delta;
+            velocity += _player.GetGravity() * (float)delta;
 
         if (velocity.X > 1)
         {
@@ -41,9 +42,9 @@ public partial class PlayerDeath : State
             velocity.X = 0;
         }
 
-        _parent.Velocity = velocity;
+        _player.Velocity = velocity;
 
-        _parent.MoveAndSlide();
+        _player.MoveAndSlide();
 
         if (StateTransitonCheck())
             return;
@@ -54,9 +55,11 @@ public partial class PlayerDeath : State
     {
         if (Input.IsActionJustPressed("menu"))
         {
-            _parent.GlobalTransform = new Transform2D(0, Vector2.Zero);
-            _parent.HealthComponent.CurrentHP = 1;
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+            _player.GlobalTransform = new Transform2D(0, Vector2.Zero);
+            _player.HealthComponent.CurrentHP = 1;
+
+            Args["AirStateParam"] = "";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
             return true;
         }
 

@@ -5,7 +5,42 @@ public partial class Player : EntityBase
 {
     private const float SPEED = 85.0f;
     private const float JUMP_VELOCITY = 275.0f;
+
+    public bool DashAvailable { get; set; }
     private RichTextLabel _label;
+
+
+    // Создан, чтобы не обращаться несколько раз к изменению одного и того же свойства
+    #region объект твин анимации для skew
+    public Tween SkewTween
+    {
+        get
+        {
+            if (_skewTween != null)
+                _skewTween.Kill();  // завершить предыдущую анимацию
+            _skewTween = CreateTween();
+            return _skewTween;
+        }
+        set { _skewTween = value; }
+    }
+    private Tween _skewTween;
+    #endregion
+
+    #region объект твин анимации для Modulate
+    public Tween ModulateTween
+    {
+        get
+        {
+            if (_modulateTween != null)
+                _modulateTween.Kill();  // завершить предыдущую анимацию
+            _modulateTween = CreateTween();
+            return _modulateTween;
+        }
+        set { _modulateTween = value; }
+    }
+    private Tween _modulateTween;
+    #endregion
+
 
     public override void _Ready()
     {
@@ -14,6 +49,7 @@ public partial class Player : EntityBase
         Speed = SPEED;
         JumpVelocity = JUMP_VELOCITY;
         Direction = 1;
+        DashAvailable = true;
         _label = GetNode<RichTextLabel>("../UI/Control/TestLabel");
         AnimNamesWithDirection = new Dictionary<string, string[]>()
         {

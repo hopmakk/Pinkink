@@ -1,7 +1,8 @@
 ﻿using Godot;
+using Godot.Collections;
 using System;
 
-public partial class PlayerWallRun : State
+public partial class PlayerWallRun : PlayerStateBase
 {
     public override void _Ready()
     {
@@ -9,9 +10,9 @@ public partial class PlayerWallRun : State
     }
 
 
-    public override void Enter(Variant arg)
+    public override void Enter()
     {
-        _parent.PlayAnim("PlayerWallRun", 1.25f);
+        _player.PlayAnim("PlayerWallRun", 1.25f);
     }
 
 
@@ -23,43 +24,45 @@ public partial class PlayerWallRun : State
         if (StateTransitonCheck(inputDirectionX, inputDirectionY))
             return;
 
-        var velocity = _parent.Velocity;
+        var velocity = _player.Velocity;
 
-        velocity.Y = inputDirectionY * _parent.Speed;
+        velocity.Y = inputDirectionY * _player.Speed;
 
-        _parent.Velocity = velocity;
+        _player.Velocity = velocity;
 
-        _parent.MoveAndSlide();
+        _player.MoveAndSlide();
     }
 
 
     private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
     {
         // death
-        if (_parent.HealthComponent.CurrentHP <= 0)
+        if (_player.HealthComponent.CurrentHP <= 0)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath");
             return true;
         }
 
         // air (jump)
         if (Input.IsActionJustPressed("jump"))
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+            Args["AirStateParam"] = "jump";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
             return true;
         }
 
         // dash
-        if (Input.IsActionJustPressed("dash"))
+        if (Input.IsActionJustPressed("dash") && _player.DashAvailable)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+            Args["AirStateParam"] = "dash";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerDash");
             return true;
         }
 
         // wall slide
         if (!Input.IsActionPressed("climb"))
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide");
             return true;
         }
 
@@ -68,18 +71,19 @@ public partial class PlayerWallRun : State
         // А так же мы не ползем вверх когда сверху потолок (проверка на застревание)
         // А так же мы не ползем вниз когда сверху пол (проверка на застревание)
         if (!Input.IsActionPressed("climb")
-            || !_parent.IsOnWall()
-            && !(_parent.IsOnCeiling() && inputDirectionY < 0)
-            && !(_parent.IsOnFloor() && inputDirectionY > 0))
+            || !_player.IsOnWall()
+            && !(_player.IsOnCeiling() && inputDirectionY < 0)
+            && !(_player.IsOnFloor() && inputDirectionY > 0))
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+            Args["AirStateParam"] = "";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
             return true;
         }
 
         // wall idle
         if (inputDirectionY == 0)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle");
             return true;
         }
 

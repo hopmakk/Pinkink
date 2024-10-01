@@ -1,7 +1,8 @@
 ﻿using Godot;
+using Godot.Collections;
 using System;
 
-public partial class PlayerWallIdle : State
+public partial class PlayerWallIdle : PlayerStateBase
 {
     public override void _Ready()
     {
@@ -9,17 +10,17 @@ public partial class PlayerWallIdle : State
     }
 
 
-    public override void Enter(Variant arg)
+    public override void Enter()
     {
         // сбросим вертикальную скорость
-        _parent.Velocity = new Vector2(_parent.Velocity.X, 0);
+        _player.Velocity = new Vector2(_player.Velocity.X, 0);
 
         // обновим направление игрока
         var wallDir = GetCollidedWallDirection();
         if (wallDir != 0)
-            _parent.Direction = wallDir;
+            _player.Direction = wallDir;
 
-        _parent.PlayAnim("PlayerWallIdle");
+        _player.PlayAnim("PlayerWallIdle");
     }
 
 
@@ -36,38 +37,41 @@ public partial class PlayerWallIdle : State
     private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
     {
         // death
-        if (_parent.HealthComponent.CurrentHP <= 0)
+        if (_player.HealthComponent.CurrentHP <= 0)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath");
             return true;
         }
 
         // air (jump)
         if (Input.IsActionJustPressed("jump"))
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+            Args["AirStateParam"] = "jump";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
             return true;
         }
 
         // dash
-        if (Input.IsActionJustPressed("dash"))
+        if (Input.IsActionJustPressed("dash") && _player.DashAvailable)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+            Args["AirStateParam"] = "dash";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerDash");
             return true;
         }
 
         // wall run
         if (inputDirectionY != 0)
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallRun", default);
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerWallRun");
             return true;
         }
 
         // air (fall)
         if (!Input.IsActionPressed("climb")
-            || !_parent.IsOnFloor() && !_parent.IsOnWall())
+            || !_player.IsOnFloor() && !_player.IsOnWall())
         {
-            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+            Args["AirStateParam"] = "";
+            EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
             return true;
         }
 
@@ -78,7 +82,7 @@ public partial class PlayerWallIdle : State
     // с какой стеной было соприкосновение в последний момент
     public int GetCollidedWallDirection()
     {
-        var collision = _parent.GetLastSlideCollision();
+        var collision = _player.GetLastSlideCollision();
         if (collision.GetNormal().X > 0)
             return -1;
         if (collision.GetNormal().X < 0)

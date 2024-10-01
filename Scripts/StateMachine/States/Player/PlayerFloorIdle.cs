@@ -1,18 +1,33 @@
 ﻿using Godot;
+using Godot.Collections;
+using System;
 
 namespace PinkInk.Scripts.StateMachine.States.Player
 {
-    internal partial class PlayerFloorIdle : State
+    internal partial class PlayerFloorIdle : PlayerStateBase
     {
+        private const double DASH_RELOAD_TIME = 0.2; // задержка перед включением дэша
+        private Timer _dashReload;
+        private bool _dashIsReloading;
+
         public override void _Ready()
         {
             base._Ready();
+            _dashReload = GetNode<Timer>("DashReload");
+            _dashReload.WaitTime = DASH_RELOAD_TIME;
+            _dashReload.Timeout += DashReload_Timeout;
         }
 
 
-        public override void Enter(Variant arg)
+        public override void Enter()
         {
-            _parent.PlayAnim("PlayerFloorIdle");
+            if (!_player.DashAvailable && !_dashIsReloading)
+            {
+                _dashIsReloading = true;
+                _dashReload.Start();
+            }
+                
+            _player.PlayAnim("PlayerFloorIdle");
         }
 
 
@@ -39,49 +54,63 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
             // death
-            if (_parent.HealthComponent.CurrentHP <= 0)
+            if (_player.HealthComponent.CurrentHP <= 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath");
                 return true;
             }
 
             // air (jump)
             if (Input.IsActionJustPressed("jump"))
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+                Args["AirStateParam"] = "jump";
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
                 return true;
             }
 
             // air (fall)
-            if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
+            if (!(_player.IsOnFloor() || _player.IsOnWall()))
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+                Args["AirStateParam"] = "";
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
                 return true;
             }
 
             // dash
-            if (Input.IsActionJustPressed("dash"))
+            if (Input.IsActionJustPressed("dash") && _player.DashAvailable)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash");
                 return true;
             }
 
             // run
             if (inputDirectionX != 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorRun", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorRun");
                 return true;
             }
 
-            // wall idle
-            if (_parent.IsOnWall() && Input.IsActionPressed("climb"))
-            {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-                return true;
-            }
+            //// wall idle
+            //if (_player.IsOnWall() && Input.IsActionPressed("climb"))
+            //{
+            //    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle");
+            //    return true;
+            //}
 
             return false;
         }
 
+
+        private void DashReload_Timeout()
+        {
+            _player.DashAvailable = true;
+            _dashIsReloading = false;
+
+            Tween tween = _player.ModulateTween;
+            tween.TweenProperty(_player.Anim, "modulate", Color.Color8(255, 255, 255), DASH_RELOAD_TIME);
+            
+
+            //_player.Anim.Modulate = Color.Color8(255, 255, 255);
+        }
     }
 }

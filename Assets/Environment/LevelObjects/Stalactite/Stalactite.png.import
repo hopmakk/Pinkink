@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clf127hvtuibh"
-path="res://.godot/imported/spikes.png-9807b9535e2a78ae98abef6b1f33b047.ctex"
+uid="uid://b6udrmi57psrm"
+path="res://.godot/imported/Stalactite.png-9bf29355d7766ed6030d9e5d110d51a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Environment/LevelObjects/Spikes/spikes.png"
-dest_files=["res://.godot/imported/spikes.png-9807b9535e2a78ae98abef6b1f33b047.ctex"]
+source_file="res://Assets/Environment/LevelObjects/Stalactite/Stalactite.png"
+dest_files=["res://.godot/imported/Stalactite.png-9bf29355d7766ed6030d9e5d110d51a0.ctex"]
 
 [params]
 

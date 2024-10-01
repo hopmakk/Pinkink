@@ -1,10 +1,11 @@
 ﻿using Godot;
+using Godot.Collections;
 using PinkInk.Scripts.ProjectLogic;
 using System;
 
 namespace PinkInk.Scripts.StateMachine.States.Player
 {
-    internal partial class PlayerFloorRun : State
+    internal partial class PlayerFloorRun : PlayerStateBase
     {
         private int _lastDirection;
 
@@ -15,21 +16,21 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         }
 
 
-        public override void Enter(Variant arg)
+        public override void Enter()
         {
-            _parent.PlayAnim("PlayerFloorRun", 1.25f);
-            _lastDirection = _parent.Direction;
+            _player.PlayAnim("PlayerFloorRun", 1.25f);
+            _lastDirection = _player.Direction;
         }
 
 
         public override void Exit()
         {
-            Tween tween = _parent.AnimSpriteTween;
-            tween.TweenProperty(_parent.Anim, "skew", 0.05, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", -0.05, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", 0.02, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", -0.02, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", 0, 0.1f);
+            Tween tween = _player.SkewTween;
+            tween.TweenProperty(_player.Anim, "skew", 0.05, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", -0.05, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", 0.02, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", -0.02, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", 0, 0.1f);
         }
 
 
@@ -49,69 +50,71 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
             // текущее направление персонажа
             if (inputDirectionX != 0)
-                _parent.Direction = Mathf.Sign(inputDirectionX);
+                _player.Direction = Mathf.Sign(inputDirectionX);
 
             // если оно отличается от предыдщуего - меняем анимацию
-            if (_parent.Direction * _lastDirection < 0)
+            if (_player.Direction * _lastDirection < 0)
             {
-                _parent.PlayAnim("PlayerFloorRun", 1.25f);
-                _lastDirection = _parent.Direction;
+                _player.PlayAnim("PlayerFloorRun", 1.25f);
+                _lastDirection = _player.Direction;
             } 
 
             // Применяем скорость
-            var velocity = _parent.Velocity;
+            var velocity = _player.Velocity;
 
-            velocity.X = inputDirectionX * _parent.Speed;
+            velocity.X = inputDirectionX * _player.Speed;
 
-            _parent.Velocity = velocity;
+            _player.Velocity = velocity;
 
-            _parent.MoveAndSlide();
+            _player.MoveAndSlide();
         }
 
 
         private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
             // death
-            if (_parent.HealthComponent.CurrentHP <= 0)
+            if (_player.HealthComponent.CurrentHP <= 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath");
                 return true;
             }
 
             // air (jump)
             if (Input.IsActionJustPressed("jump"))
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+                Args["AirStateParam"] = "jump";
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
                 return true;
             }
 
             // dash
-            if (Input.IsActionJustPressed("dash"))
+            if (Input.IsActionJustPressed("dash") && _player.DashAvailable)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash");
                 return true;
             }
 
             // air (fall)
-            if (!(_parent.IsOnFloor() || _parent.IsOnWall()))
+            if (!(_player.IsOnFloor() || _player.IsOnWall()))
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", default);
+                Args["AirStateParam"] = "";
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
                 return true;
             }
 
             // floor idle
             if (inputDirectionX == 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle");
                 return true;
             }
 
-            // wall idle
-            if (_parent.IsOnWall() && Input.IsActionPressed("climb"))
-            {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-                return true;
-            }
+            //// wall idle
+            //if (_player.IsOnWall() && Input.IsActionPressed("climb"))
+            //{
+            //    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle");
+            //    return true;
+            //}
 
             return false;
         }

@@ -11,20 +11,6 @@ public partial class EntityBase : CharacterBody2D
     public HealthComponent HealthComponent { get; set; }  // HealthComponent
     public Dictionary<string, string[]> AnimNamesWithDirection { get; set; }    // названия анимаций и их интерпритация для разных направлений
 
-    // Запрос и прерывание новой Tween анимации
-    public Tween AnimSpriteTween
-    {
-        get
-        {
-            if (_animSpriteTween != null)
-                _animSpriteTween.Kill();  // завершить предыдущую анимацию
-            _animSpriteTween = CreateTween();
-            return _animSpriteTween;
-        }
-        set { _animSpriteTween = value; }
-    }
-    private Tween _animSpriteTween;
-
 
     public override void _Ready()
     {

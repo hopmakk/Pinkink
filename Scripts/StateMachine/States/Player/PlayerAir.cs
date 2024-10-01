@@ -1,18 +1,18 @@
 ﻿using Godot;
+using Godot.Collections;
 using System;
 
 namespace PinkInk.Scripts.StateMachine.States.Player
 {
-    internal partial class PlayerAir : State
+    internal partial class PlayerAir : PlayerStateBase
     {
         private const double COYOTE_JUMP_TIME = 0.1;    // время после падения, когда еще можно совершить прыжок
         private const double TODO_JUMP_TIME = 0.1;      // время запоминания, что надо сделать прыжок при приземлении
-        private const float POST_DASH_Y_SPEED = -50.0f; // величина сглаживания дэша
+        private const float POST_DASH_Y_SPEED = -100.0f; // величина сглаживания дэша
         private const float MAX_GRAVITY = 200.0f;       // максимально возможная гравитация
 
         private int _lastDirection;
         private Vector2 _lastVelocity;
-        private string _stateParam;    // с каким параметром мы перешли в это состояние 
         private GpuParticles2D GPUParticles2D;
         private Timer _coyoteJumpTimer;
         private Timer _todoJumpTimer;   
@@ -30,46 +30,41 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             _todoJumpTimer = GetNode<Timer>("TodoJump");
             _todoJumpTimer.WaitTime = TODO_JUMP_TIME;
 
-            _stateParam = "";
             _lastVelocity = Vector2.Zero;
         }
 
 
-        public override void Enter(Variant arg)
+        public override void Enter()
         {
-            if (arg.VariantType == Variant.Type.String)
+            if (Args["AirStateParam"] == "jump")
             {
-                _stateParam = (string)arg;
-                if (_stateParam == "jump")
-                {
-                    var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
-                    var jumpDirection = new Vector2(inputDirectionX, -1);
-                    _parent.Velocity = jumpDirection * _parent.JumpVelocity;
-                    _parent.PlayAnim("PlayerAirJump", 2f);
-                }
-
-                else if (_stateParam == "jumpWall")
-                {
-                    var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
-                    var jumpDirection = new Vector2(inputDirectionX, -1);
-                    _parent.Velocity = jumpDirection * _parent.JumpVelocity;
-                    _parent.PlayAnim("PlayerAir", 2f);
-                }
-
-                else if (_stateParam == "dash")
-                {
-                    _parent.Velocity = new Vector2(_parent.Velocity.X, POST_DASH_Y_SPEED);
-                    _parent.PlayAnim("PlayerAir");
-                }
+                var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+                var jumpDirection = new Vector2(inputDirectionX, -1);
+                _player.Velocity = jumpDirection * _player.JumpVelocity;
+                _player.PlayAnim("PlayerAirJump", 2f);
             }
+
+            else if (Args["AirStateParam"] == "jumpWall")
+            {
+                var inputDirectionX = Input.GetAxis("ui_left", "ui_right");
+                var jumpDirection = new Vector2(inputDirectionX, -1);
+                _player.Velocity = jumpDirection * _player.JumpVelocity;
+                _player.PlayAnim("PlayerAir", 2f);
+            }
+
+            else if (Args["AirStateParam"] == "dash")
+            {
+                _player.Velocity = new Vector2(_player.Velocity.X, POST_DASH_Y_SPEED);
+                _player.PlayAnim("PlayerAir");
+            }
+
             else
             {
-                _stateParam = "";
                 _coyoteJumpTimer.Start();
-                _parent.PlayAnim("PlayerAir");
+                _player.PlayAnim("PlayerAir");
             }
 
-            _lastDirection = _parent.Direction;
+            _lastDirection = _player.Direction;
         }
 
 
@@ -78,18 +73,18 @@ namespace PinkInk.Scripts.StateMachine.States.Player
             _coyoteJumpTimer.Stop();
             _todoJumpTimer.Stop();
 
-            Tween tween = _parent.AnimSpriteTween;
-            tween.TweenProperty(_parent.Anim, "skew", 0.1, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", -0.1, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", 0.05, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", -0.05, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", 0.02, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", -0.02, 0.1f);
-            tween.TweenProperty(_parent.Anim, "skew", 0, 0.1f);
+            Tween tween = _player.SkewTween;
+            tween.TweenProperty(_player.Anim, "skew", 0.1, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", -0.1, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", 0.05, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", -0.05, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", 0.02, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", -0.02, 0.1f);
+            tween.TweenProperty(_player.Anim, "skew", 0, 0.1f);
 
-            Tween tween1 = _parent.GetTree().CreateTween();
-            tween1.TweenProperty(_parent.Anim, "scale", new Vector2(1.1f, 0.9f), 0.1f);
-            tween1.TweenProperty(_parent.Anim, "scale", new Vector2(1.0f, 1.0f), 0.1f);
+            Tween tween1 = _player.GetTree().CreateTween();
+            tween1.TweenProperty(_player.Anim, "scale", new Vector2(1.1f, 0.9f), 0.1f);
+            tween1.TweenProperty(_player.Anim, "scale", new Vector2(1.0f, 1.0f), 0.1f);
         }
 
         
@@ -100,13 +95,13 @@ namespace PinkInk.Scripts.StateMachine.States.Player
 
             // текущее направление персонажа
             if (inputDirectionX != 0)
-                _parent.Direction = Mathf.Sign(inputDirectionX);
+                _player.Direction = Mathf.Sign(inputDirectionX);
 
             // если оно отличается от предыдщуего - меняем анимацию
-            if (_parent.Direction * _lastDirection < 0)
+            if (_player.Direction * _lastDirection < 0)
             {
-                _parent.PlayAnim("PlayerAir");
-                _lastDirection = _parent.Direction;
+                _player.PlayAnim("PlayerAir");
+                _lastDirection = _player.Direction;
             }
 
             // запоминаем, чтобы сделать прыжок при падении
@@ -114,77 +109,80 @@ namespace PinkInk.Scripts.StateMachine.States.Player
                 _todoJumpTimer.Start();
 
             // Применяем скорость
-            var velocity = _parent.Velocity;
+            var velocity = _player.Velocity;
 
-            velocity.X = inputDirectionX * _parent.Speed;
+            velocity.X = inputDirectionX * _player.Speed;
 
             if (velocity.Y < MAX_GRAVITY)
-                velocity += _parent.GetGravity() * (float)delta;
+                velocity += _player.GetGravity() * (float)delta;
 
-            _parent.Velocity = velocity;
+            _player.Velocity = velocity;
 
-            _parent.MoveAndSlide();
+            _player.MoveAndSlide();
 
             if (StateTransitonCheck(inputDirectionX, inputDirectionY))
                 return;
 
-            _lastVelocity = _parent.Velocity;
+            _lastVelocity = _player.Velocity;
         }
 
 
         private bool StateTransitonCheck(float inputDirectionX, float inputDirectionY)
         {
             // death
-            if (_parent.HealthComponent.CurrentHP <= 0)
+            if (_player.HealthComponent.CurrentHP <= 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDeath");
                 return true;
             }
 
             // air (coyot jump)
             if (Input.IsActionJustPressed("jump") && _coyoteJumpTimer.TimeLeft > 0)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
+                Args["AirStateParam"] = "jump";
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerAir");
                 return true;
             }
 
             // air (jump on floor)
-            if (_todoJumpTimer.TimeLeft > 0 && _parent.IsOnFloor())
+            if (_todoJumpTimer.TimeLeft > 0 && _player.IsOnFloor())
             {
+                Args["AirStateParam"] = "jump";
                 EmitSignal(State.SignalName.Transitioned, this, "PlayerAir", "jump");
                 return true;
             }
 
             // dash
-            if (Input.IsActionJustPressed("dash") && _stateParam != "dash")
+            if (Input.IsActionJustPressed("dash") && _player.DashAvailable)
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash", default);
+                Args["AirStateParam"] = "dash";
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerDash");
                 return true;
             }
 
             // floor idle
-            if (_parent.IsOnFloor())
+            if (_player.IsOnFloor())
             {
-                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle", default);
+                EmitSignal(State.SignalName.Transitioned, this, "PlayerFloorIdle");
                 if (_lastVelocity.Y >= MAX_GRAVITY)
                     GPUParticles2D.Restart();
                 return true;
             }
 
             // wall
-            if (_parent.IsOnWall())
+            if (_player.IsOnWall())
             {
-                // wall idle
-                if (Input.IsActionPressed("climb"))
-                {
-                    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle", default);
-                    return true;
-                }
+                //// wall idle
+                //if (Input.IsActionPressed("climb"))
+                //{
+                //    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallIdle");
+                //    return true;
+                //}
 
                 // wall slide (если игрок движется в сторону стены и вертикальная скорость направлена вниз)
-                if (inputDirectionX * GetCollidedWallDirection() > 0 && _parent.Velocity.Y >= 0)
+                if (inputDirectionX * GetCollidedWallDirection() > 0 && _player.Velocity.Y >= 0)
                 {
-                    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide", default);
+                    EmitSignal(State.SignalName.Transitioned, this, "PlayerWallSlide");
                     return true;
                 }
                 
@@ -196,7 +194,7 @@ namespace PinkInk.Scripts.StateMachine.States.Player
         // с какой стеной было соприкосновение в последний момент
         public int GetCollidedWallDirection()
         {
-            var collision = _parent.GetLastSlideCollision();
+            var collision = _player.GetLastSlideCollision();
             if (collision.GetNormal().X > 0)
                 return -1;
             if (collision.GetNormal().X < 0)
