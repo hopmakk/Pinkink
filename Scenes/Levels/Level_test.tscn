@@ -377,6 +377,7 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/1 = SubResource("TileSetAtlasSource_8uudl")
 
 [node name="Level_test" type="Node2D"]
+texture_filter = 1
 
 [node name="Objects" type="Node2D" parent="."]
 
