@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Godot\\Projects\\pinkink\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\projectlogic\\replaysystem\\inputrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\projectlogic\\replaysystem\\inputrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\entities\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\entities\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\projectlogic\\replaysystem\\inputreplayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\projectlogic\\replaysystem\\inputreplayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\statemachine\\states\\player\\playerfloorrun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\statemachine\\states\\player\\playerfloorrun.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\projectlogic\\replaysystem\\inputrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\projectlogic\\replaysystem\\inputrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,41 +30,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\Player\\Player.cs",
+              "RelativeDocumentMoniker": "Scripts\\Entities\\Player\\Player.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\Player\\Player.cs",
+              "RelativeToolTip": "Scripts\\Entities\\Player\\Player.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADUAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-04T07:03:19.906Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "InputReplayer.cs",
-              "DocumentMoniker": "C:\\GODOT\\PROJECTS\\PINKINK\\Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
               "RelativeDocumentMoniker": "Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
-              "ToolTip": "C:\\GODOT\\PROJECTS\\PINKINK\\Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
               "RelativeToolTip": "Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAApAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T08:53:31.528Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "InputRecorder.cs",
-              "DocumentMoniker": "C:\\GODOT\\PROJECTS\\PINKINK\\Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
               "RelativeDocumentMoniker": "Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
-              "ToolTip": "C:\\GODOT\\PROJECTS\\PINKINK\\Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
               "RelativeToolTip": "Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAQwBcAAAAcAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T04:30:23.557Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PlayerFloorRun.cs",
-              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
-              "RelativeDocumentMoniker": "Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
-              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
-              "RelativeToolTip": "Scripts\\StateMachine\\States\\Player\\PlayerFloorRun.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAcAAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T03:43:59.621Z",
               "EditorCaption": ""
             }
           ]

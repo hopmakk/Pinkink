@@ -50,7 +50,7 @@ public partial class Player : EntityBase
         JumpVelocity = JUMP_VELOCITY;
         Direction = 1;
         DashAvailable = true;
-        _label = GetNode<RichTextLabel>("../UI/Control/TestLabel");
+        _label = GetNode<RichTextLabel>("../../UI/Control/TestLabel");
         AnimNamesWithDirection = new Dictionary<string, string[]>()
         {
             { "PlayerFloorIdle", new[]{ "floor_idle_left", "floor_idle_right" } },

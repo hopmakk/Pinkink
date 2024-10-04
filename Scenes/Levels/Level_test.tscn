@@ -557,6 +557,9 @@ position = Vector2(599, -384)
 [node name="Stalactite5" parent="Objects/Traps/Stalactites" instance=ExtResource("13_5qj8s")]
 position = Vector2(1176, -368)
 
+[node name="Stalactite6" parent="Objects/Traps/Stalactites" instance=ExtResource("13_5qj8s")]
+position = Vector2(440, -80)
+
 [node name="Light" type="Node2D" parent="Objects"]
 
 [node name="GodRays" parent="Objects/Light" instance=ExtResource("12_kljc6")]
@@ -620,18 +623,24 @@ texture = ExtResource("9_olo4c")
 [node name="Camera2D" type="Camera2D" parent="Objects" node_paths=PackedStringArray("Player")]
 zoom = Vector2(3, 3)
 script = ExtResource("2_cc0r0")
-Player = NodePath("../../Player")
+Player = NodePath("../../Entities/Player")
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Player" parent="Entities" instance=ExtResource("3_2ye01")]
+
+[node name="Postproc" type="Node2D" parent="."]
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Postproc"]
+color = Color(0.691357, 0.691357, 0.691357, 1)
 
 [node name="UI" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Control" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 32.0
-offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -641,12 +650,11 @@ offset_right = 144.0
 offset_bottom = 101.0
 text = "fgfdgdfgdf"
 
-[node name="Player" parent="." instance=ExtResource("3_2ye01")]
-
-[node name="Postproc" type="Node2D" parent="."]
-
-[node name="CanvasModulate" type="CanvasModulate" parent="Postproc"]
-color = Color(0.691357, 0.691357, 0.691357, 1)
-
-[node name="Stalactite" parent="." instance=ExtResource("13_5qj8s")]
-position = Vector2(440, -80)
+[node name="ReplayLabel" type="RichTextLabel" parent="UI/Control"]
+custom_minimum_size = Vector2(130, 100)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1.0
+grow_horizontal = 0
