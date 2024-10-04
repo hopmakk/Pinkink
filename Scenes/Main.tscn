@@ -1,18 +1,17 @@
 [gd_scene load_steps=5 format=3 uid="uid://oa7j1njde7vo"]
 
 [ext_resource type="Script" path="res://Scripts/Environment/Main.cs" id="1_ibl0i"]
-[ext_resource type="PackedScene" uid="uid://ccka8jtrc8ras" path="res://Scenes/Levels/Level_test.tscn" id="2_b41ah"]
+[ext_resource type="PackedScene" uid="uid://r7kb25j0ktx5" path="res://Scenes/Levels/LevelTest.tscn" id="2_prd5m"]
 [ext_resource type="Script" path="res://Scripts/ProjectLogic/ReplaySystem/InputRecorder.cs" id="3_2bjxu"]
 [ext_resource type="Script" path="res://Scripts/ProjectLogic/ReplaySystem/InputReplayer.cs" id="4_plmem"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ibl0i")
 
-[node name="Level_test" parent="." instance=ExtResource("2_b41ah")]
+[node name="LevelBase" parent="." instance=ExtResource("2_prd5m")]
 
 [node name="InputRecorder" type="Node" parent="."]
 script = ExtResource("3_2bjxu")
 
 [node name="InputReplayer" type="Node" parent="."]
 script = ExtResource("4_plmem")
-Replay = true

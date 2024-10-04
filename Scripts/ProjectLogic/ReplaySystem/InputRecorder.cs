@@ -26,7 +26,7 @@ public partial class InputRecorder : Node
 
     public override void _Ready()
     {
-        _playerStateMachine = GetNode<StateMachine>("../Level_test/Entities/Player/StateMachine");
+        _playerStateMachine = GetNode<StateMachine>("../LevelBase/Entities/Player/StateMachine");
     }
 
 

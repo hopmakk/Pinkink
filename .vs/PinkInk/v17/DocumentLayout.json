@@ -3,15 +3,19 @@
   "WorkspaceRootPath": "C:\\Godot\\Projects\\pinkink\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\projectlogic\\replaysystem\\inputrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\projectlogic\\replaysystem\\posrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\projectlogic\\replaysystem\\posrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\projectlogic\\replaysystem\\inputrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\projectlogic\\replaysystem\\inputrecorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\entities\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\entities\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\projectlogic\\replaysystem\\posreplayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\projectlogic\\replaysystem\\posreplayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|c:\\godot\\projects\\pinkink\\scripts\\projectlogic\\replaysystem\\inputreplayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|C:\\Godot\\Projects\\pinkink\\scripts\\projectlogic\\replaysystem\\inputreplayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F4FB09C-E573-4003-BD50-A8A751224873}|PinkInk.csproj|solutionrelative:scripts\\projectlogic\\replaysystem\\inputreplayer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,39 +34,52 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\Player\\Player.cs",
-              "RelativeDocumentMoniker": "Scripts\\Entities\\Player\\Player.cs",
-              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\Entities\\Player\\Player.cs",
-              "RelativeToolTip": "Scripts\\Entities\\Player\\Player.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADUAAAAIAAAA",
+              "DocumentIndex": 2,
+              "Title": "PosReplayer.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\PosReplayer.cs",
+              "RelativeDocumentMoniker": "Scripts\\ProjectLogic\\ReplaySystem\\PosReplayer.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\PosReplayer.cs",
+              "RelativeToolTip": "Scripts\\ProjectLogic\\ReplaySystem\\PosReplayer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-04T07:03:19.906Z",
+              "WhenOpened": "2024-10-04T09:36:47.517Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "PosRecorder.cs",
+              "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\PosRecorder.cs",
+              "RelativeDocumentMoniker": "Scripts\\ProjectLogic\\ReplaySystem\\PosRecorder.cs",
+              "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\PosRecorder.cs",
+              "RelativeToolTip": "Scripts\\ProjectLogic\\ReplaySystem\\PosRecorder.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-04T09:36:36.979Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "InputReplayer.cs",
               "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
               "RelativeDocumentMoniker": "Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
               "RelativeToolTip": "Scripts\\ProjectLogic\\ReplaySystem\\InputReplayer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T08:53:31.528Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "InputRecorder.cs",
               "DocumentMoniker": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
               "RelativeDocumentMoniker": "Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
               "ToolTip": "C:\\Godot\\Projects\\pinkink\\Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
               "RelativeToolTip": "Scripts\\ProjectLogic\\ReplaySystem\\InputRecorder.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA6AAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAkAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T04:30:23.557Z",
               "EditorCaption": ""

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dwc56tgs3w0oj"]
+
+[node name="LevelBase" type="Node2D"]
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Postproc" type="Node2D" parent="."]

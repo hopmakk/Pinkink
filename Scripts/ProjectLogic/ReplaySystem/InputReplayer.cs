@@ -24,8 +24,8 @@ public partial class InputReplayer : Node
 
     public override void _Ready()
     {
-        _playerStateMachine = GetNode<StateMachine>("../Level_test/Entities/Player/StateMachine");
-        _replayLabel = GetNode<RichTextLabel>("../Level_test/UI/Control/ReplayLabel");
+        _playerStateMachine = GetNode<StateMachine>("../LevelBase/Entities/Player/StateMachine");
+        _replayLabel = GetNode<RichTextLabel>("../LevelBase/UI/Control/ReplayLabel");
         _synchrBreakIndex = -1;
 
         // Читаем файлы
