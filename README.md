@@ -11,8 +11,12 @@ Fully solo-developed (code + art).
 
 ## 📌 Plans
 - New **gameplay mechanics**.  
-- Expanded **content** (levels, enemies, collectibles, skills).  
+- Expanded **content** (levels, enemies, collectibles, skills).
+
+## 📥 Download
+Download the latest version: [Release](https://github.com/hopmakk/PinkInk/releases/latest)  
 
 ## 🔧 Other
-**Tech Stack**: Godot/C#.  
-To run the project, you only need Godot 4.3 .NET
+**Tech Stack**: C# + Godot 4.3
+
+
